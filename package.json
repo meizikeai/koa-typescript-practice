@@ -9,7 +9,6 @@
   "scripts": {
     "test": "NODE_ENV=local nodemon --watch 'server/**/*' -e ts,tsx --exec 'ts-node' ./server/index.ts",
     "start": "NODE_ENV=development nodemon build/index.js",
-    "check": "sh task/lint-staged-files.sh",
     "watch": "node ./webpack/watch.js",
     "build": "node ./webpack/build.js",
     "build-ts": "rm -rf ./build/* && tsc",
@@ -70,8 +69,8 @@
     "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@commitlint/cli": "^7.6.1",
-    "@commitlint/config-conventional": "^7.6.0",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
     "@types/koa": "^2.0.48",
     "@types/koa-bodyparser": "^4.2.2",
     "@types/koa-compress": "^2.0.9",

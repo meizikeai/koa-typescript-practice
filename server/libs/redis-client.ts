@@ -1,10 +1,10 @@
 import redis from 'redis'
 import { list } from 'redis-commands'
 
-// import Raven from './raven'
+import Raven from './raven'
 import configMap from '../config/backend'
 import { createCache } from './interval-cache-store'
-import { getRedisConf } from './qconf'
+import { getRedisConf } from './qconf-common'
 import { promisify } from 'util'
 
 type configMapItem = keyof typeof configMap
@@ -14,20 +14,18 @@ const refreshTime = 1e3 * 60
 function getRedisPoolByQconfPath(key: configMapItem) {
   return createCache(`redis-${key}`, () => {
     const configs = getRedisConf(key)
-
     const redisServer = configs.host
-
     const redisClient = createRedisClient(redisServer)
 
-    // setTimeout(() => {
-    //   try {
-    //     redisClient.quit()
-    //   } catch (e) {
-    //     console.error(`close redis error with host: ${redisServer}`)
-    //     e.redisConfPath = redisServer
-    //     Raven.captureException(e)
-    //   }
-    // }, refreshTime * 2)
+    setTimeout(() => {
+      try {
+        redisClient.quit()
+      } catch (e) {
+        console.error(`close redis error with host: ${redisServer}`)
+        e.redisConfPath = redisServer
+        Raven.captureException(e)
+      }
+    }, refreshTime * 2)
 
     return redisClient
   }, refreshTime)
@@ -66,4 +64,3 @@ function build(target: any) {
 }
 
 module.exports = getRedisPoolByQconfPath
-exports.createRedisClient = createRedisClient

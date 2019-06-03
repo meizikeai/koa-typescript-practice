@@ -6,15 +6,15 @@
  * @property  {string} user                 用户名
  * @property  {string} password             密码
  * @property  {string} database             数据库
- * @property  {number} [connectionLimit=3]  最多连接数
+ * @property  {number} [connectionLimit=1]  最多连接数
  */
 
 import mysql from 'mysql'
 import { promisify } from 'util'
-// import Raven from './raven'
+import Raven from './raven'
 import configMap from '../config/backend'
 import { createCache } from './interval-cache-store'
-import { getMysqlConf } from './qconf'
+import { getMysqlConf } from './qconf-common'
 
 type configMapItem = keyof typeof configMap
 
@@ -35,6 +35,8 @@ interface PoolConfig {
   connectionLimit: number
 }
 
+const refreshTime = 1e3 * 60
+
 function getMysqlPoolByQconfPath(path: configMapItem) {
   return createCache(`mysql-${path}`, () => {
 
@@ -42,15 +44,15 @@ function getMysqlPoolByQconfPath(path: configMapItem) {
     const mysqlPool = createMysqlPool(mysqlConf)
 
     // 同时最多保存2份pool的实例，随后会定时关闭pool，以避免占用太多的连接数
-    // setTimeout(() => {
-    //   try {
-    //     mysqlPool.end()
-    //   } catch (e) {
-    //     console.error(`close mysql error with path: ${path}`)
-    //     e.mysqlConfPath = path
-    //     Raven.captureException(e)
-    //   }
-    // }, refreshTime * 2)
+    setTimeout(() => {
+      try {
+        mysqlPool.end()
+      } catch (e) {
+        console.error(`close mysql error with path: ${path}`)
+        e.mysqlConfPath = path
+        Raven.captureException(e)
+      }
+    }, refreshTime * 2)
 
     return mysqlPool
   }, 1000 * 60)
@@ -60,7 +62,7 @@ function getMysqlPoolByQconfPath(path: configMapItem) {
  * 创建promisify版本的mysql连接
  * @param {MysqlClientConfig}
  */
-function createMysqlPool({ masterHost, slaveHost, username, password, database, connectionLimit = 3, }: MySQLConfig) {
+function createMysqlPool({ masterHost, slaveHost, username, password, database, connectionLimit = 1, }: MySQLConfig) {
   const conf: any = {
     user: username,
     password,
@@ -108,4 +110,3 @@ function createPromisifyPool({ host, user, password, database, connectionLimit, 
 }
 
 module.exports = getMysqlPoolByQconfPath
-exports.createMysqlPool = createMysqlPool
