@@ -17,7 +17,7 @@
 
 import qconf from 'node-qconf'
 import path from 'path'
-import { isPro } from '../config'
+import { isLocalPro } from '../config'
 import configMap from '../config/backend'
 
 export interface MysqlConfig {
@@ -31,7 +31,7 @@ export interface MysqlConfig {
 }
 
 // 控制 qconf 配置读取规则，仅在本地开发环境下有效
-const flag = isPro ? 'production' : ''
+const flag = isLocalPro ? 'production' : ''
 export type configMapItem = keyof typeof configMap
 /**
  * 根据 qconf 路径获取 host
