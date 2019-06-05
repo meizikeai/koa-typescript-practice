@@ -1,0 +1,53 @@
+.access_branch_template: &access_branch
+  only:
+    - master
+    - test
+
+variables:
+  deploy: /home/work/koa-typescript-practice
+  scripts: /home/website-runner/runner-scripts
+
+stages:
+  - install
+  - build
+  - development
+  - production
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+    - build/
+    - git_version
+
+install:
+  <<: *access_branch
+  stage: install
+  script:
+    - bash $scripts/install.sh
+
+build:
+  <<: *access_branch
+  stage: build
+  script:
+    - bash $scripts/build.sh
+
+development:
+  stage: development
+  when: on_success
+  script: 
+    - bash $scripts/deploy.sh "work@192.168.0.1"
+  environment:
+    name: development
+  only:
+    - test
+
+production:
+  stage: production
+  when: manual
+  script: 
+    - bash $scripts/deploy.sh "work@192.168.1.1 work@192.168.1.2"
+  environment:
+    name: production
+  only:
+    - master
