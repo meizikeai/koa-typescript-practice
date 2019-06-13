@@ -161,6 +161,19 @@ module.exports = (env, argv) => {
   } else {
     config.devtool = 'inline-source-map'
     config.watch = true
+    config.watchOptions = {
+      aggregateTimeout: 2000,
+      ignored: [
+        'build',
+        'logs',
+        'node_modules',
+        'pm2',
+        'public',
+        'server',
+        'views',
+        'webpack',
+      ],
+    }
   }
 
   return config
