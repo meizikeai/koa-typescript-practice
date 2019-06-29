@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import Layout from '../../components/layout'
 import minLayer from '../../components/popup-min-layer'
 
-import './demo.css'
+import './index.scss'
 
 const layoutArgs = {
   bodyMaxWidth: 425,

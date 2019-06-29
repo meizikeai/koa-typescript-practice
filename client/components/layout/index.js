@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import 'node-fetch'
 
-import './reset.scss'
+import './reset.css'
 
 class Layout extends Component {
   static propTypes = {
