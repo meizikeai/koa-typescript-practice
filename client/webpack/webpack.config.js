@@ -2,13 +2,13 @@ const fs = require('fs')
 const path = require('path')
 
 const Autoprefixer = require('autoprefixer')
-// const QiniuPlugin = require('qiniu-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+// const QiniuPlugin = require('qiniu-webpack-plugin')
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const config = {
   stats: {
@@ -17,7 +17,7 @@ const config = {
   output: {
     filename: '[name]-[contenthash:8].js',
     chunkFilename: '[name]-[contenthash:8].js',
-    path: path.resolve(__dirname, '../public/build'),
+    path: path.resolve(__dirname, '../../public/build'),
     publicPath: '/build',
   },
   optimization: {
@@ -98,15 +98,15 @@ const isDirectory = dir => {
 }
 
 const htmlPlugin = address => {
-  const customFile = path.resolve(__dirname, `../client/pages/${address}/index.hbs`)
-  const defaultFile = path.resolve(__dirname, '../client/templates/index.hbs')
+  const customFile = path.resolve(__dirname, `../pages/${address}/index.hbs`)
+  const defaultFile = path.resolve(__dirname, '../templates/index.hbs')
   const pass = fs.existsSync(customFile)
   const template = pass ? customFile : defaultFile
 
   console.log(address)
 
   return new HtmlWebpackPlugin({
-    filename: path.resolve(__dirname, `../views/${address}.hbs`),
+    filename: path.resolve(__dirname, `../../views/${address}.hbs`),
     template,
     minify: {
       removeComments: true,
@@ -139,7 +139,7 @@ const htmlPlugin = address => {
 module.exports = (env, argv) => {
   config.plugins.push(miniCssPlugin)
 
-  const dir = path.resolve(__dirname, `../client/pages/${env.p}`)
+  const dir = path.resolve(__dirname, `../pages/${env.p}`)
 
   const entry = {}
   entry[env.p] = isDirectory(dir) ? `${dir}/index.js` : `${dir}.js`

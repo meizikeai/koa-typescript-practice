@@ -1,9 +1,9 @@
 import { mysqlClient, redisClient } from '../libs/connect'
 
 async function getAnchors({ ctx }: any) {
-  const activityMySQL = mysqlClient('activityMySQL')()
+  const livedataActivityMySQL = mysqlClient('livedataActivityMySQL')()
 
-  const anchors = await activityMySQL.query(`SELECT uid FROM ACTIVITY20190123 limit 0 ,10`).catch((err: any) => {
+  const anchors = await livedataActivityMySQL.query(`SELECT uid FROM ACTIVITY20190123 limit 0 ,10`).catch((err: any) => {
     ctx.logger.error(err, { tips: 'test -> query error' })
   })
 

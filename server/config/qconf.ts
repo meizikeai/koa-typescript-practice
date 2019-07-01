@@ -1,9 +1,9 @@
 export const QconfMap: { [key: string]: string } = {
   // MySQL
-  activityMySQL: '/blued/backend/udb/livedata_activity/master',
+  livedataActivityMySQL: '/blued/backend/udb/livedata_activity/master',
 
   // Redis
-  userRedis: '/blued/backend/umem/users',
+  liveOverseaRedis: '/blued/backend/umem/live_oversea',
   liveRedis: '/blued/backend/umem/live',
-  iliveRedis: '/blued/backend/umem/live_oversea',
+  userRedis: '/blued/backend/umem/users',
 }

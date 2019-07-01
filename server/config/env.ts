@@ -3,7 +3,6 @@ const env = process.env.NODE_ENV
 export const isLocal = env === 'local'
 export const isDev = env === 'development'
 export const isPro = env === 'production'
-export const port = 5000
 
 // 在本地使用线上数据库
 const dev = process.env.NODE_DEV
