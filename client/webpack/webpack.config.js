@@ -162,7 +162,7 @@ module.exports = (env, argv) => {
     config.devtool = 'inline-source-map'
     config.watch = true
     config.watchOptions = {
-      aggregateTimeout: 2000,
+      aggregateTimeout: 300,
       ignored: [
         'build',
         'logs',
@@ -171,7 +171,6 @@ module.exports = (env, argv) => {
         'public',
         'server',
         'views',
-        'webpack',
       ],
     }
   }

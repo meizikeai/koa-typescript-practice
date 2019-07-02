@@ -18,9 +18,12 @@
   "keywords": [
     "koa",
     "typescript",
-    "practice"
+    "practice",
+    "koa-typescript",
+    "koa-typescript-practice"
   ],
   "author": "meizikeai@163.com",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/meizikeai/koa-typescript-practice.git"
@@ -128,19 +131,19 @@
     "Android >= 4"
   ],
   "nodemonConfig": {
-    "verbose": true,
-    "ignore": [
-      "logs/*",
-      "node_modules/*",
-      "public/*"
-    ],
     "events": {
       "restart": "osascript -e 'display notification \"koa-typescript-practice restarted\" with title \"nodemon\"'"
     },
+    "ext": "ts tsx js json",
+    "ignore": [
+      "build/*",
+      "logs/*",
+      "node_modules/*"
+    ],
+    "verbose": true,
     "watch": [
       "server/*"
-    ],
-    "ext": "ts js json jsx scss hbs html ejs css sass"
+    ]
   },
   "eslintIgnore": [
     "build/**/*"
