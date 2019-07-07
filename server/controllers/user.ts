@@ -25,5 +25,4 @@ export default class UserController {
     ctx.status = 200
     ctx.body = 'A user can only be deleted by himself'
   }
-
 }

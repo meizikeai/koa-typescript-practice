@@ -18,6 +18,7 @@ variables:
 
 stages:
   - install
+  - check
   - build
   - deploy-development
   - deploy-production
@@ -35,6 +36,12 @@ install:
   script:
     - bash $scripts/declare.sh
     - bash $scripts/install.sh
+
+check:
+  <<: *access_branch
+  stage: check
+  script:
+    - bash $scripts/check.sh
 
 build:
   <<: *access_branch

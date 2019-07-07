@@ -40,7 +40,6 @@ app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }))
 app.use(compress())
 app.use(helmet())
 
-
 // cors
 // app.use(cors({
 //   origin: '*',

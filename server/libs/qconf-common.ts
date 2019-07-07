@@ -108,7 +108,6 @@ export function validateQconfMap(accessCallback: Function) {
  */
 export function getRedisConf(key: configMapItem) {
   const res = getHost(key)
-
   if (res === null) throw new Error(`can not found qconf with key: [${key}]`)
 
   const [host, port] = res.split(':')

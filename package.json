@@ -14,7 +14,8 @@
     "watch": "node ./client/webpack/watch.js",
     "build": "node ./client/webpack/build.js",
     "watch-ts": "tsc -w",
-    "build-ts": "rm -rf ./build/* && tsc"
+    "build-ts": "rm -rf ./build/* && tsc",
+    "check": "eslint --ext .ts,.js ."
   },
   "keywords": [
     "koa",
@@ -54,28 +55,28 @@
   },
   "devDependencies": {
     "@antv/f2": "^3.3.9",
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/core": "^7.5.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/plugin-proposal-do-expressions": "^7.2.0",
+    "@babel/plugin-proposal-do-expressions": "^7.5.0",
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
     "@babel/plugin-proposal-function-bind": "^7.2.0",
-    "@babel/plugin-proposal-function-sent": "^7.2.0",
+    "@babel/plugin-proposal-function-sent": "^7.5.0",
     "@babel/plugin-proposal-json-strings": "^7.2.0",
     "@babel/plugin-proposal-logical-assignment-operators": "^7.2.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
     "@babel/plugin-proposal-numeric-separator": "^7.2.0",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@babel/plugin-proposal-pipeline-operator": "^7.3.2",
+    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
     "@babel/plugin-proposal-throw-expressions": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-syntax-import-meta": "^7.2.0",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
-    "@types/koa": "^2.0.48",
+    "@types/koa": "^2.0.49",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-compress": "^2.0.9",
     "@types/koa-helmet": "^3.1.2",
@@ -85,11 +86,11 @@
     "@types/koa-views": "^2.0.3",
     "@types/mkdirp": "^0.5.2",
     "@types/mysql": "^2.15.6",
-    "@types/node": "^12.0.10",
+    "@types/node": "^12.0.12",
     "@types/raven": "^2.5.3",
     "@types/redis": "^2.8.13",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
-    "autoprefixer": "^9.6.0",
+    "autoprefixer": "^9.6.1",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -147,6 +148,6 @@
     ]
   },
   "eslintIgnore": [
-    "build/**/*"
+    "build/"
   ]
 }

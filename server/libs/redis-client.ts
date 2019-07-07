@@ -1,17 +1,17 @@
 import redis from 'redis'
 import { list } from 'redis-commands'
 
+import { promisify } from 'util'
 import Raven from './raven'
 import configMap from '../config/backend'
 import { createCache } from './interval-cache-store'
 import { getRedisConf } from './qconf-common'
-import { promisify } from 'util'
 
 type configMapItem = keyof typeof configMap
 
 const refreshTime = 1e3 * 60
 
-function getRedisPoolByQconfPath(key: configMapItem) {
+export function getRedisPoolByQconfPath(key: configMapItem) {
   return createCache(`redis-${key}`, () => {
     const configs = getRedisConf(key)
     const redisServer = configs.host
@@ -37,7 +37,7 @@ function getRedisPoolByQconfPath(key: configMapItem) {
  * @param {number} port 创建链接的端口
  * @return {RedisClient}
  */
-function createRedisClient(host: string, port = 6379) {
+export function createRedisClient(host: string, port = 6379) {
   const redisClient = redis.createClient(port, host)
 
   // build promisify methods
@@ -51,7 +51,7 @@ function createRedisClient(host: string, port = 6379) {
  * @param {any} target RedisClient
  * @return {any}
  */
-function build(target: any) {
+export function build(target: any) {
   list.forEach((method: any) => {
     const func = target[method]
     if (typeof func === 'function') {
@@ -63,4 +63,4 @@ function build(target: any) {
   return target
 }
 
-module.exports = getRedisPoolByQconfPath
+// module.exports = getRedisPoolByQconfPath

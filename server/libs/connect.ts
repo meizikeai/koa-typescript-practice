@@ -1,8 +1,10 @@
-const createMySQLClient = require('./mysql-client')
-const createRedisClient = require('./redis-client')
+import { getMysqlPoolByQconfPath as createMySQLClient } from './mysql-client'
+import { getRedisPoolByQconfPath as createRedisClient } from './redis-client'
+import configMap from '../config/backend'
 
-const mysqlClient = (conf: string) => createMySQLClient(conf)
-const redisClient = (conf: string) => createRedisClient(conf)
+type configMapItem = keyof typeof configMap
+const mysqlClient = (conf: configMapItem) => createMySQLClient(conf)
+const redisClient = (conf: configMapItem) => createRedisClient(conf)
 
 export {
   mysqlClient,

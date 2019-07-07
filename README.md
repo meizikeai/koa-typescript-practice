@@ -16,7 +16,6 @@ https://github.com/meizikeai/koa-typescript-practice.git
 | public         | 静态文件   | -    |
 | server         | 服务端文件 | -    |
 | views          | 静态文件   | -    |
-| webpack        | webpack    | -    |
 | .babelrc       | Babel      | -    |
 | .eslintrc.json | ESLint     | -    |
 | .gitignore     | Git        | -    |
