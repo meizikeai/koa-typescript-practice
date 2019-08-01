@@ -100,7 +100,6 @@ export function validateQconfMap(accessCallback: Function) {
     return accessCallback(qconfPath, configItem)
   }
 }
-
 /**
  * 获取 redis 配置信息
  * @param   {string}    key       qconf地址
@@ -130,19 +129,25 @@ export function getMysqlConf(key: configMapItem) {
   // 获取固定的 qconf 路径，用于拼接 mysql 配置使用的特殊 path
   // addQconfPrePath('master') => /udb/XXX/master
   const masterHostConf = getQconfHost(addQconfPrePath('master'))
-  const [masterHost] = (masterHostConf || '').split(':')
+  const [masterHost, masterPort] = (masterHostConf || '').split(':')
 
   if (!masterHostConf) {
     throw new Error(`can not found qconf with key: [${key}]`)
   }
 
   let slaveHost
+  let slavePort
   try {
     const slaveHostConf = getQconfAllHost(addQconfPrePath('slave'))
-    slaveHost = slaveHostConf.map((item: string) => item.split(':')[0])
+    const [slave] = slaveHostConf.map((item: string) => item.split(':'))
+
+    const [host, port] = slave
+    slaveHost = host
+    slavePort = port
   } catch (e) {
     // path have not slave conf
-    slaveHost = [masterHost]
+    slaveHost = masterHost
+    slavePort = masterPort
   }
 
   const password = getQconfConf(addQconfPrePath('password'))
@@ -150,7 +155,9 @@ export function getMysqlConf(key: configMapItem) {
 
   return {
     masterHost,
+    masterPort: Number(masterPort) || 3306,
     slaveHost,
+    slavePort: Number(slavePort) || 3306,
     username,
     password,
     database,

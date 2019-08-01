@@ -20,15 +20,18 @@ type configMapItem = keyof typeof configMap
 
 interface MySQLConfig {
   masterHost: string
+  masterPort: number
   username: string
   password: string
   database: string
   slaveHost?: string[]
+  slavePort: number
   connectionLimit: number
 }
 
 interface PoolConfig {
   host: string
+  port: number
   user: string
   password: string
   database: string
@@ -41,6 +44,7 @@ export function getMysqlPoolByQconfPath(path: configMapItem) {
   return createCache(`mysql-${path}`, () => {
     const mysqlConf: any = getMysqlConf(path)
     const mysqlPool = createMysqlPool(mysqlConf)
+
     // 同时最多保存2份pool的实例，随后会定时关闭pool，以避免占用太多的连接数
     setTimeout(() => {
       try {
@@ -62,7 +66,9 @@ export function getMysqlPoolByQconfPath(path: configMapItem) {
  */
 export function createMysqlPool(
   { masterHost,
+    masterPort,
     slaveHost,
+    slavePort,
     username,
     password,
     database,
@@ -77,11 +83,13 @@ export function createMysqlPool(
   }
   const masterMysqlClient = createPromisifyPool({
     host: masterHost,
+    port: masterPort,
     ...conf,
   })
 
   const slaveMysqlClient = createPromisifyPool({
-    host: slaveHost[0],
+    host: slaveHost,
+    port: slavePort,
     ...conf,
   })
 
@@ -100,9 +108,10 @@ export function createMysqlPool(
   }
 }
 
-export function createPromisifyPool({ host, user, password, database, connectionLimit }: PoolConfig) {
+export function createPromisifyPool({ host, user, password, database, connectionLimit, port }: PoolConfig) {
   const pool: any = mysql.createPool({
     host,
+    port,
     user,
     password,
     database,
