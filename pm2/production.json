@@ -1,6 +1,6 @@
 {
   "name": "koa-typescript-practice",
-  "script": "/home/work/koa-typescript-practice/build/index.js",
+  "script": "/home/work/koa-typescript-practice/build/app.js",
   "error_file": "/data/logs/pm2/koa-typescript-practice/error.log",
   "out_file": "/data/logs/pm2/koa-typescript-practice/out.log",
   "log_date_format": "YYYY-MM-DD HH:mm Z",

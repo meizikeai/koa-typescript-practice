@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-
 const Autoprefixer = require('autoprefixer')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')

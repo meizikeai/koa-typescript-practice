@@ -1,25 +1,24 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
-// import cors from 'koa-better-cors'
+import cors from 'koa-better-cors'
 import helmet from 'koa-helmet'
 import json from 'koa-json'
 import jsonp from 'koa-safe-jsonp'
 import koaBody from 'koa-body'
-import logger from 'koa-base-logger'
 import path from 'path'
 import serve from 'koa-static'
 import views from 'koa-views'
+import { BaseLogger, loggerError } from 'koa-base-logger'
 
-import { isLocal } from './config'
+import Raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
+import { isLocal, port } from './config'
 
 const app = new Koa()
 
-// handleModel()
-
 // logs
-app.use(logger({
+app.use(BaseLogger({
   appName: 'koa-typescript-practice',
 }))
 
@@ -41,10 +40,10 @@ app.use(compress())
 app.use(helmet())
 
 // cors
-// app.use(cors({
-//   origin: '*',
-//   methods: 'POST, GET, OPTIONS',
-// }))
+app.use(cors({
+  origin: '*',
+  methods: 'POST, GET, OPTIONS',
+}))
 
 // json
 app.use(json())
@@ -111,4 +110,20 @@ app.on('error', (err, ctx) => {
   ctx.logger.error(err, { notice: 'server error' })
 })
 
-export default app
+loggerError.on('error', (err: Error) => {
+  Raven.captureException(err)
+})
+
+process.on('uncaughtException', e => {
+  Raven.captureException(e)
+  console.error(e)
+})
+
+process.on('unhandledRejection', (reason: any) => {
+  Raven.captureException(reason)
+  console.error(reason)
+})
+
+export default app.listen(port || '3000', () => {
+  console.log(`Server running on 127.0.0.1:${port}`)
+})

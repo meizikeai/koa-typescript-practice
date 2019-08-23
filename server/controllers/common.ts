@@ -1,5 +1,5 @@
 import { BaseContext } from 'koa'
-import { getAnchors, getUser } from '../models/common'
+// import { getAnchors, getUser } from '../models/common'
 
 export default class GeneralController {
   public static async home(ctx: BaseContext) {
@@ -16,8 +16,8 @@ export default class GeneralController {
       b: 'Is you?',
     }
 
-    await getAnchors({ ctx })
-    await getUser({ ctx })
+    // await getAnchors({ ctx })
+    // await getUser({ ctx })
 
     await ctx.render('index', response)
   }
