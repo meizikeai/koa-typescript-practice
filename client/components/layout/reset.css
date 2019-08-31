@@ -1,9 +1,8 @@
-// 全局样式处理
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   text-size-adjust: none;
 }
 
@@ -94,7 +93,6 @@ video {
   border: 0;
 }
 
-// HTML5 display-role reset for order browsers
 article,
 aside,
 details,
@@ -123,14 +121,11 @@ ul {
   list-style: none;
 }
 
-// 去除虚线
-input,
-select,
-textarea,
-button {
-  &:focus {
-    outline: none;
-  }
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
 }
 
 a {
@@ -138,7 +133,6 @@ a {
   -webkit-touch-callout: none;
 }
 
-// 重置圆角和内阴影
 input,
 textarea {
   border: 1px solid;
@@ -146,7 +140,6 @@ textarea {
   -webkit-appearance: none;
 }
 
-// 图片响应式缩放
 img {
   max-width: 100%;
 }
