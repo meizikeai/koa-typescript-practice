@@ -30,9 +30,7 @@ const config = {
         },
       },
     },
-    runtimeChunk: {
-      name: e => `manifest-${e.name}`,
-    },
+    runtimeChunk: true,
     minimizer: [
       new OptimizeCssAssetsPlugin(),
       new UglifyWebpackPlugin({ sourceMap: true }),
@@ -107,6 +105,8 @@ const htmlPlugin = address => {
   return new HtmlWebpackPlugin({
     filename: path.resolve(__dirname, `../../views/${address}.hbs`),
     template,
+    hash: true,
+    chunks: ['runtime', 'vendors', address],
     minify: {
       removeComments: true,
       collapseWhitespace: true,
