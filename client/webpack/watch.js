@@ -6,13 +6,6 @@ prompt().then(({ oraInstance, args }) => {
     webpack --mode development --config ./client/webpack/webpack.config.js --progress --hide-modules ${args}
   `, { async: true })
 
-  child.stdout.on('data', data => {
-    if (data.toLowerCase().includes('webpack')) {
-      oraInstance.stop()
-      oraInstance.clear()
-    }
-  })
-
   child.stderr.on('data', () => {
     oraInstance.stop()
     oraInstance.clear()

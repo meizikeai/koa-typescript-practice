@@ -23,13 +23,12 @@ const config = {
     splitChunks: {
       cacheGroups: {
         vendors: {
+          name: 'vendors',
           test: /[\\/]node_modules[\\/]/,
-          chunks: 'initial',
+          chunks: 'all',
+          priority: 10,
         },
       },
-    },
-    runtimeChunk: {
-      name: 'manifest',
     },
     minimizer: [
       new OptimizeCssAssetsPlugin(),
@@ -101,8 +100,6 @@ const htmlPlugin = address => {
   const defaultFile = path.resolve(__dirname, '../templates/index.hbs')
   const pass = fs.existsSync(customFile)
   const template = pass ? customFile : defaultFile
-
-  console.log(address)
 
   return new HtmlWebpackPlugin({
     filename: path.resolve(__dirname, `../../views/${address}.hbs`),
