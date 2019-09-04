@@ -30,6 +30,9 @@ const config = {
         },
       },
     },
+    runtimeChunk: {
+      name: e => `manifest-${e.name}`,
+    },
     minimizer: [
       new OptimizeCssAssetsPlugin(),
       new UglifyWebpackPlugin({ sourceMap: true }),
