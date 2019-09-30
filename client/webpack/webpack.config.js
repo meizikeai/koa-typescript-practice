@@ -9,6 +9,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+const reg = /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|prop-types|node-fetch)[\\/]/
+
 const config = {
   stats: {
     colors: true,
@@ -24,9 +26,15 @@ const config = {
       cacheGroups: {
         vendors: {
           name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
+          test: reg,
           chunks: 'all',
           priority: 10,
+        },
+        common: {
+          name: 'common',
+          chunks: 'all',
+          priority: 5,
+          minChunks: 2,
         },
       },
     },
@@ -65,9 +73,7 @@ const config = {
       },
     ],
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-  ],
+  plugins: [],
 }
 
 const miniCssPlugin = new MiniCssExtractPlugin({
@@ -105,8 +111,8 @@ const htmlPlugin = address => {
   return new HtmlWebpackPlugin({
     filename: path.resolve(__dirname, `../../views/${address}.hbs`),
     template,
-    hash: true,
-    chunks: ['runtime', 'vendors', address],
+    // hash: true,
+    // chunks: ['runtime', 'vendors', address],
     minify: {
       removeComments: true,
       collapseWhitespace: true,
@@ -140,12 +146,17 @@ module.exports = (env, argv) => {
 
   const dir = path.resolve(__dirname, `../pages/${env.p}`)
 
+  let trunk = env.p
+  if (/\//gi.test(env.p)) {
+    trunk = env.p.split('/').slice(-1)
+  }
+
   const entry = {}
   entry[env.p] = isDirectory(dir) ? `${dir}/index.js` : `${dir}.js`
 
-  const pass = fs.existsSync(entry[env.p])
+  const pass = fs.existsSync(entry[trunk])
   if (!pass) {
-    throw new Error(`Webpack Options → "entry[env.p] = ${entry[env.p]}" is not a valid path.`)
+    throw new Error(`Webpack Options → "entry[env.p] = ${entry[trunk]}" is not a valid path.`)
   }
 
   config.entry = entry
@@ -155,6 +166,7 @@ module.exports = (env, argv) => {
     config.devtool = false
     config.output.publicPath = 'https://cdn.example.com/'
     config.optimization.minimize = true
+    config.plugins.push(new CleanWebpackPlugin())
     config.plugins.push(compressionPlugin)
     // config.plugins.push(qiniuPlugin())
   } else {
