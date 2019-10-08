@@ -17,7 +17,7 @@
 
 import qconf from 'node-qconf'
 import path from 'path'
-import { isLocalPro } from '../config'
+import { isLocalPro } from '../config/env'
 import configMap from '../config/backend'
 
 export interface MysqlConfig {

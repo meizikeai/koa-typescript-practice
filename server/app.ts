@@ -13,7 +13,8 @@ import { BaseLogger, loggerError } from 'koa-base-logger'
 
 import Raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
-import { isLocal, port } from './config'
+import { isLocal } from './config/env'
+import { port } from './config/config'
 
 const app = new Koa()
 
