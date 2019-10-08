@@ -6,8 +6,8 @@ import './reset.css'
 
 class Layout extends Component {
   static propTypes = {
-    bodyMaxWidth: PropTypes.number.isRequired,
-    designWidth: PropTypes.number.isRequired,
+    bodyMaxWidth: PropTypes.number,
+    designWidth: PropTypes.number,
   }
 
   constructor ({ bodyMaxWidth = 425, designWidth = 750 }) {
