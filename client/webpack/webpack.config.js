@@ -152,7 +152,7 @@ module.exports = (env, argv) => {
   }
 
   const entry = {}
-  entry[env.p] = isDirectory(dir) ? `${dir}/index.js` : `${dir}.js`
+  entry[trunk] = isDirectory(dir) ? `${dir}/index.js` : `${dir}.js`
 
   const pass = fs.existsSync(entry[trunk])
   if (!pass) {

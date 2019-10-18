@@ -2,15 +2,17 @@
  * 简单提示框模版
  * 参数说明：
  * @param {String} content 提示内容
- * @param {Number} duration 自动关闭的时间，默认1500
+ * @param {Number} duration 自动关闭的时间，默认2000
  * @param {Boolean} layer 透明庶档是不是出现
+ * @param {Boolean} model 黑/白
  * @param {Function} callback 回调
  * 使用方式：
  * PopupMinLayer.show({
+ *  content: '请输入体验码',
+ *  duration: 2000,
  *  layer: false,
- *  duration: 1000,
- *  content: '请输入体验码〜'
- *  callback: () => {}
+ *  model: false,
+ *  callback: () => { },
  * })
  */
 
@@ -24,13 +26,15 @@ class PopupMinLayer extends Component {
     content: PropTypes.string,
     height: PropTypes.number,
     layer: PropTypes.bool,
-    show: PropTypes.bool,
+    model: PropTypes.bool,
     node: PropTypes.object,
+    show: PropTypes.bool,
   }
 
   static defaultProps = {
     content: '',
     layer: true,
+    model: true,
     show: true,
   }
 
@@ -57,13 +61,13 @@ class PopupMinLayer extends Component {
 
   render () {
     const { show } = this.state
-    const { content, height, layer } = this.props
+    const { content, height, layer, model } = this.props
     return (
       <div className='model-mini-layer' style={{ display: show ? null : 'none' }}>
         <div className="layer">
           <div className='content'>{content}</div>
         </div>
-        {layer ? <div className='layer-back' style={{ height: `${height}px` }} /> : ''}
+        {layer ? <div className={model ? 'layer-back white' : 'layer-back black'} style={{ height: `${height}px` }} /> : ''}
       </div>
     )
   }
@@ -116,7 +120,7 @@ function createToast () {
 
 export default {
   show (options) {
-    let { content, duration, layer, callback } = options
+    let { content, callback, duration, layer, model } = options
     const toast = createToast()
 
     if (!duration) {
@@ -139,6 +143,7 @@ export default {
       content={content}
       height={document.body.clientHeight}
       layer={layer}
+      model={model}
       node={toast} />, toast)
 
     disableScroll()
