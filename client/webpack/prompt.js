@@ -1,4 +1,3 @@
-const ora = require('ora')
 const inquirer = require('inquirer')
 
 const questions = [
@@ -15,13 +14,9 @@ module.exports = () => new Promise(resolve => {
   inquirer.prompt(questions).then(answers => {
     args.push(`--env.p=${answers.project}`)
 
-    const oraInstance = ora({
-      color: 'yellow',
-      text: 'Please waiting for the webpack start → ',
-    }).start()
+    console.warn('↓ Please wait for webpack execution to complete →')
 
     resolve({
-      oraInstance,
       args: args.join(' '),
     })
   })
