@@ -11,7 +11,7 @@ import serve from 'koa-static'
 import views from 'koa-views'
 import { BaseLogger, loggerError } from 'koa-base-logger'
 
-import Raven from './libs/raven'
+import raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
 import { isLocal } from './config/env'
 import { port } from './config/config'
@@ -112,16 +112,16 @@ app.on('error', (err, ctx) => {
 })
 
 loggerError.on('error', (err: Error) => {
-  Raven.captureException(err)
+  raven.captureException(err)
 })
 
 process.on('uncaughtException', e => {
-  Raven.captureException(e)
+  raven.captureException(e)
   console.error(e)
 })
 
 process.on('unhandledRejection', (reason: any) => {
-  Raven.captureException(reason)
+  raven.captureException(reason)
   console.error(reason)
 })
 

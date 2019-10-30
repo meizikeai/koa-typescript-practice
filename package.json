@@ -8,13 +8,13 @@
     "node": ">=8.11.2"
   },
   "scripts": {
-    "start": "NODE_ENV=local nodemon -x 'ts-node' ./server/app.ts",
+    "start": "NODE_ENV=local nodemon -x 'ts-node' server/app.ts",
     "development": "NODE_ENV=development nodemon build/app.js",
     "production": "NODE_ENV=production NODE_DEV=localPro nodemon build/app.js",
-    "watch": "node ./client/webpack/watch.js",
-    "build": "node ./client/webpack/build.js",
+    "watch": "node client/webpack/watch.js",
+    "build": "node client/webpack/build.js",
     "watch-ts": "tsc -w",
-    "build-ts": "rm -rf ./build/* && tsc",
+    "build-ts": "rm -rf build/* && tsc",
     "check": "eslint --ext .ts,.js,.jsx . --fix"
   },
   "keywords": [
