@@ -23,9 +23,7 @@ https://github.com/meizikeai/koa-typescript-practice.git
 #### 开发环境
 
 - 克隆项目 - `$ git clone https://github.com/meizikeai/koa-typescript-practice.git`
-
 - 安装依赖 - `$ cd koa-typescript-practice && npm i`
-
 - 启动项目 - `$ npm run start`
 
 开发依赖[eslint.org](https://eslint.org)，请使用支持它的编辑器。推荐[Visual Studio Code](https://code.visualstudio.com)编辑器。
