@@ -13,7 +13,7 @@ import { BaseLogger, loggerError } from 'koa-base-logger'
 
 import raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
-import { isLocal } from './config/env'
+import { isPro } from './config/env'
 import { port } from './config/config'
 
 const app = new Koa()
@@ -64,10 +64,9 @@ app.use(async (ctx, next) => {
 
   const error = !/404$|403$/ig.test(ctx.path)
   const method = /get/ig.test(ctx.request.method)
-  const pass = isLocal === false
   const protocol = /http$/ig.test(ctx.request.header['x-forwarded-proto'])
 
-  if (pass && error && method && protocol) {
+  if (isPro && error && method && protocol) {
     ctx.redirect(ctx.request.href.replace(/^http:/ig, 'https:'))
   }
 
