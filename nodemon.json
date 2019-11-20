@@ -1,0 +1,16 @@
+{
+  "events": {
+    "restart": "osascript -e 'display notification \"koa-typescript-practice restarted\" with title \"nodemon\"'"
+  },
+  "ext": "ts tsx js json",
+  "ignore": [
+    "build/*",
+    "logs/*",
+    "node_modules/*"
+  ],
+  "quiet": true,
+  "verbose": true,
+  "watch": [
+    "server/*"
+  ]
+}

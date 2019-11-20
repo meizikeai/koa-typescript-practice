@@ -73,7 +73,7 @@ export function createMysqlPool(
     password,
     database,
     connectionLimit = 1,
-  }: MySQLConfig
+  }: MySQLConfig,
 ) {
   const conf: any = {
     user: username,

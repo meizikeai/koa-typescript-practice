@@ -15,6 +15,6 @@ export default (min: number, max: number, inclusive = false) => {
   return Math.floor(
     Math.random() * (
       inclusive ? (tempMax - tempMin + 1) : (tempMax - tempMin)
-    )
+    ),
   ) + tempMin
 }

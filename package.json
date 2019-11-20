@@ -31,7 +31,7 @@
     "url": "https://github.com/meizikeai/koa-typescript-practice.git"
   },
   "dependencies": {
-    "handlebars": "^4.5.1",
+    "handlebars": "^4.5.3",
     "koa": "^2.11.0",
     "koa-base-logger": "^0.0.11",
     "koa-better-cors": "^0.0.2",
@@ -55,14 +55,14 @@
   },
   "devDependencies": {
     "@antv/f2": "^3.4.2",
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-decorators": "^7.7.0",
     "@babel/plugin-proposal-do-expressions": "^7.6.0",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
     "@babel/plugin-proposal-function-bind": "^7.2.0",
-    "@babel/plugin-proposal-function-sent": "^7.5.0",
+    "@babel/plugin-proposal-function-sent": "^7.7.0",
     "@babel/plugin-proposal-json-strings": "^7.2.0",
     "@babel/plugin-proposal-logical-assignment-operators": "^7.2.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
@@ -72,8 +72,8 @@
     "@babel/plugin-proposal-throw-expressions": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-syntax-import-meta": "^7.2.0",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@types/koa": "<=2.0.50",
@@ -83,14 +83,14 @@
     "@types/koa-json": "^2.0.18",
     "@types/koa-router": "^7.0.42",
     "@types/koa-static": "^4.0.1",
-    "@types/koa-views": "^2.0.3",
+    "@types/koa-views": "^2.0.4",
     "@types/mkdirp": "^0.5.2",
-    "@types/mysql": "^2.15.7",
-    "@types/node": "^12.12.0",
+    "@types/mysql": "^2.15.8",
+    "@types/node": "^12.12.11",
     "@types/raven": "^2.5.3",
     "@types/redis": "^2.8.14",
-    "@typescript-eslint/eslint-plugin": "^2.6.0",
-    "autoprefixer": "^9.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.8.0",
+    "autoprefixer": "^9.7.2",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -113,40 +113,17 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "qiniu-webpack-plugin": "^0.4.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-lazyload": "^2.6.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-lazyload": "^2.6.5",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "sass-loader": "^8.0.0",
     "shelljs": "^0.8.3",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
-  },
-  "browserslist": [
-    "> 2%",
-    "last 5 versions",
-    "Android >= 4"
-  ],
-  "nodemonConfig": {
-    "events": {
-      "restart": "osascript -e 'display notification \"koa-typescript-practice restarted\" with title \"nodemon\"'"
-    },
-    "ext": "ts tsx js json",
-    "ignore": [
-      "build/*",
-      "logs/*",
-      "node_modules/*"
-    ],
-    "verbose": true,
-    "watch": [
-      "server/*"
-    ]
-  },
-  "eslintIgnore": [
-    "build/"
-  ]
+    "webpack-cli": "^3.3.10"
+  }
 }
