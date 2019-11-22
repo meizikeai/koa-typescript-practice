@@ -33,7 +33,7 @@
   "dependencies": {
     "handlebars": "^4.5.3",
     "koa": "^2.11.0",
-    "koa-base-logger": "^0.0.11",
+    "koa-base-logger": "^1.0.0",
     "koa-better-cors": "^0.0.2",
     "koa-body": "^4.1.1",
     "koa-bodyparser": "^4.2.1",
@@ -54,7 +54,7 @@
     "redis-commands": "^1.5.0"
   },
   "devDependencies": {
-    "@antv/f2": "^3.4.2",
+    "@antv/f2": "^3.4.3",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
@@ -109,7 +109,7 @@
     "lodash.debounce": "^4.0.8",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
-    "nodemon": "^1.19.4",
+    "nodemon": "^2.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "qiniu-webpack-plugin": "^0.4.2",

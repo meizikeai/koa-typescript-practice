@@ -9,7 +9,7 @@ import koaBody from 'koa-body'
 import path from 'path'
 import serve from 'koa-static'
 import views from 'koa-views'
-import { BaseLogger, loggerError } from 'koa-base-logger'
+import { baseLogger, loggerError } from 'koa-base-logger'
 
 import raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
@@ -19,7 +19,7 @@ import { port } from './config/config'
 const app = new Koa()
 
 // logs
-app.use(BaseLogger({
+app.use(baseLogger({
   appName: 'koa-typescript-practice',
 }))
 
@@ -110,7 +110,8 @@ app.on('error', (err, ctx) => {
   ctx.logger.error(err, { notice: 'server error' })
 })
 
-loggerError.on('error', (err: Error) => {
+loggerError.on('error', (err, ctx) => {
+  console.log(err, ctx)
   raven.captureException(err)
 })
 
