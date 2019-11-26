@@ -1,10 +1,11 @@
+import datum from '../config/datum'
 import { getMysqlPoolByQconfPath as createMySQLClient } from './mysql-client'
 import { getRedisPoolByQconfPath as createRedisClient } from './redis-client'
-import configMap from '../config/backend'
 
-type configMapItem = keyof typeof configMap
-const mysqlClient = (conf: configMapItem) => createMySQLClient(conf)
-const redisClient = (conf: configMapItem) => createRedisClient(conf)
+type configDatum = keyof typeof datum
+
+const mysqlClient = (conf: configDatum) => createMySQLClient(conf)
+const redisClient = (conf: configDatum) => createRedisClient(conf)
 
 export {
   mysqlClient,

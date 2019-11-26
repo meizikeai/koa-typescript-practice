@@ -14,11 +14,11 @@ import { baseLogger, loggerError } from 'koa-base-logger'
 import raven from './libs/raven'
 import handleRouter from './system/control/handle-router'
 import { isPro } from './config/env'
-import { port } from './config/config'
 
 const app = new Koa()
+const port = process.env.PORT || '3000'
 
-// logs
+// logger
 app.use(baseLogger({
   appName: 'koa-typescript-practice',
 }))
@@ -32,7 +32,7 @@ app.use(views(path.join(__dirname, '../views'), {
   map: { hbs: 'handlebars' },
 }))
 
-// body, files
+// body / files
 app.use(koaBody({ multipart: true }))
 app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }))
 
@@ -52,7 +52,7 @@ app.use(json())
 // jsonp
 jsonp(app)
 
-// routes
+// router
 handleRouter(app)
 
 // redirect
@@ -106,25 +106,26 @@ app.use(async (ctx, next) => {
 })
 
 // error-handling
+loggerError.on('error', (err, ctx) => {
+  raven.captureException(err)
+  console.log(err, ctx)
+})
+
+process.on('uncaughtException', err => {
+  raven.captureException(err)
+  console.error(err)
+})
+
+process.on('unhandledRejection', (err: any) => {
+  raven.captureException(err)
+  console.error(err)
+})
+
 app.on('error', (err, ctx) => {
   ctx.logger.error(err, { notice: 'server error' })
 })
 
-loggerError.on('error', (err, ctx) => {
-  console.log(err, ctx)
-  raven.captureException(err)
-})
-
-process.on('uncaughtException', e => {
-  raven.captureException(e)
-  console.error(e)
-})
-
-process.on('unhandledRejection', (reason: any) => {
-  raven.captureException(reason)
-  console.error(reason)
-})
-
-export default app.listen(port || '3000', () => {
+// listening
+app.listen(port, () => {
   console.log(`Server running on 127.0.0.1:${port}`)
 })

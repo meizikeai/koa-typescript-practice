@@ -3,7 +3,8 @@ import { mysqlClient, redisClient } from '../libs/connect'
 async function getAnchors({ ctx }: any) {
   const livedataActivityMySQL = mysqlClient('livedataActivityMySQL')()
 
-  const anchors = await livedataActivityMySQL.query(`SELECT uid FROM ACTIVITY20190123 limit 0 ,10`).catch((err: any) => {
+  const selectSQL = `SELECT uid FROM KAFKA_ACTIVITY_TEST_20191125 limit 0 ,10`
+  const anchors = await livedataActivityMySQL.query(selectSQL).catch((err: any) => {
     ctx.logger.error(err, { tips: 'test -> query error' })
   })
 

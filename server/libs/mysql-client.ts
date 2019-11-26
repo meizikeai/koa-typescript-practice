@@ -10,26 +10,29 @@
  */
 
 import mysql from 'mysql'
+import { Qconf } from '@blued-core/qconf'
 import { promisify } from 'util'
-import Raven from './raven'
-import configMap from '../config/backend'
+
+import raven from './raven'
+import datum from '../config/datum'
 import { createCache } from './interval-cache-store'
-import { getMysqlConf } from './qconf-common'
 
-type configMapItem = keyof typeof configMap
+type Key = keyof typeof datum
 
-interface MySQLConfig {
-  masterHost: string
-  masterPort: number
+interface Column {
+  host: string
+  port: number
+}
+
+interface Options {
+  master: Column
+  slaves: Column[]
   username: string
   password: string
   database: string
-  slaveHost?: string[]
-  slavePort: number
-  connectionLimit: number
 }
 
-interface PoolConfig {
+interface Configs {
   host: string
   port: number
   user: string
@@ -38,21 +41,21 @@ interface PoolConfig {
   connectionLimit: number
 }
 
+const qconf = new Qconf(datum)
 const refreshTime = 1e3 * 60
 
-export function getMysqlPoolByQconfPath(path: configMapItem) {
-  return createCache(`mysql-${path}`, () => {
-    const mysqlConf: any = getMysqlConf(path)
-    const mysqlPool = createMysqlPool(mysqlConf)
+export function getMysqlPoolByQconfPath(key: Key) {
+  return createCache(`mysql-${key}`, () => {
+    const config: any = qconf.getMysqlConf(key)
+    const mysqlPool = createMysqlPool(config)
 
-    // 同时最多保存2份pool的实例，随后会定时关闭pool，以避免占用太多的连接数
     setTimeout(() => {
       try {
         mysqlPool.end()
       } catch (e) {
-        console.error(`close mysql error with path: ${path}`)
-        e.mysqlConfPath = path
-        Raven.captureException(e)
+        console.error(`close mysql error with path: ${key}`)
+        e.mysqlConfPath = key
+        raven.captureException(e)
       }
     }, refreshTime * 2)
 
@@ -64,32 +67,23 @@ export function getMysqlPoolByQconfPath(path: configMapItem) {
  * 创建promisify版本的mysql连接
  * @param {MysqlClientConfig}
  */
-export function createMysqlPool(
-  { masterHost,
-    masterPort,
-    slaveHost,
-    slavePort,
-    username,
-    password,
-    database,
-    connectionLimit = 1,
-  }: MySQLConfig,
-) {
+export function createMysqlPool(option: Options) {
   const conf: any = {
-    user: username,
-    password,
-    database,
-    connectionLimit,
+    connectionLimit: 1,
+    database: option.database,
+    password: option.password,
+    user: option.username,
   }
+
   const masterMysqlClient = createPromisifyPool({
-    host: masterHost,
-    port: masterPort,
+    host: option.master.host,
+    port: option.master.port,
     ...conf,
   })
 
   const slaveMysqlClient = createPromisifyPool({
-    host: slaveHost,
-    port: slavePort,
+    host: option.slaves[0].host,
+    port: option.slaves[0].port,
     ...conf,
   })
 
@@ -108,7 +102,7 @@ export function createMysqlPool(
   }
 }
 
-export function createPromisifyPool({ host, user, password, database, connectionLimit, port }: PoolConfig) {
+export function createPromisifyPool({ host, user, password, database, connectionLimit, port }: Configs) {
   const pool: any = mysql.createPool({
     host,
     port,

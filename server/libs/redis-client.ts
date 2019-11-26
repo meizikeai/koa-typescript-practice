@@ -1,20 +1,21 @@
 import redis from 'redis'
+import { Qconf } from '@blued-core/qconf'
 import { list } from 'redis-commands'
-
 import { promisify } from 'util'
-import Raven from './raven'
-import configMap from '../config/backend'
+
+import raven from './raven'
+import datum from '../config/datum'
 import { createCache } from './interval-cache-store'
-import { getRedisConf } from './qconf-common'
 
-type configMapItem = keyof typeof configMap
+type Key = keyof typeof datum
 
+const qconf = new Qconf(datum)
 const refreshTime = 1e3 * 60
 
-export function getRedisPoolByQconfPath(key: configMapItem) {
+export function getRedisPoolByQconfPath(key: Key) {
   return createCache(`redis-${key}`, () => {
-    const configs = getRedisConf(key)
-    const redisServer = configs.host
+    const config = qconf.getRedisConf(key)
+    const redisServer = config.host
     const redisClient = createRedisClient(redisServer)
 
     setTimeout(() => {
@@ -23,7 +24,7 @@ export function getRedisPoolByQconfPath(key: configMapItem) {
       } catch (e) {
         console.error(`close redis error with host: ${redisServer}`)
         e.redisConfPath = redisServer
-        Raven.captureException(e)
+        raven.captureException(e)
       }
     }, refreshTime * 2)
 
@@ -62,5 +63,3 @@ export function build(target: any) {
 
   return target
 }
-
-// module.exports = getRedisPoolByQconfPath
