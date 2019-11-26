@@ -16,7 +16,7 @@ import handleRouter from './system/control/handle-router'
 import { isPro } from './config/env'
 
 const app = new Koa()
-const port = process.env.PORT || '3000'
+const port = process.env.PORT || 3000
 
 // logger
 app.use(baseLogger({
