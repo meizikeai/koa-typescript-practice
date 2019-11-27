@@ -3,14 +3,16 @@ import { Qconf } from '@blued-core/qconf'
 import { list } from 'redis-commands'
 import { promisify } from 'util'
 
-import raven from './raven'
 import datum from '../config/datum'
 import { createCache } from './interval-cache-store'
+import { isLocalPro } from '../config/env'
 
 type Key = keyof typeof datum
 
 const qconf = new Qconf(datum)
 const refreshTime = 1e3 * 60
+
+qconf.flag = isLocalPro ? 'production' : ''
 
 export function getRedisPoolByQconfPath(key: Key) {
   return createCache(`redis-${key}`, () => {
@@ -21,10 +23,9 @@ export function getRedisPoolByQconfPath(key: Key) {
     setTimeout(() => {
       try {
         redisClient.quit()
-      } catch (e) {
-        console.error(`close redis error with host: ${redisServer}`)
-        e.redisConfPath = redisServer
-        raven.captureException(e)
+      } catch (err) {
+        err.redisConfPath = redisServer
+        console.error(`close redis error with host: ${redisServer}, ${err}`)
       }
     }, refreshTime * 2)
 

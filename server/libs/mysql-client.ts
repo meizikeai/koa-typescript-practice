@@ -13,9 +13,9 @@ import mysql from 'mysql'
 import { Qconf } from '@blued-core/qconf'
 import { promisify } from 'util'
 
-import raven from './raven'
 import datum from '../config/datum'
 import { createCache } from './interval-cache-store'
+import { isLocalPro } from '../config/env'
 
 type Key = keyof typeof datum
 
@@ -44,6 +44,8 @@ interface Configs {
 const qconf = new Qconf(datum)
 const refreshTime = 1e3 * 60
 
+qconf.flag = isLocalPro ? 'production' : ''
+
 export function getMysqlPoolByQconfPath(key: Key) {
   return createCache(`mysql-${key}`, () => {
     const config: any = qconf.getMysqlConf(key)
@@ -52,10 +54,9 @@ export function getMysqlPoolByQconfPath(key: Key) {
     setTimeout(() => {
       try {
         mysqlPool.end()
-      } catch (e) {
-        console.error(`close mysql error with path: ${key}`)
-        e.mysqlConfPath = key
-        raven.captureException(e)
+      } catch (err) {
+        err.mysqlConfPath = key
+        console.error(`close mysql error with path: ${key}, ${err}`)
       }
     }, refreshTime * 2)
 
