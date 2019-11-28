@@ -1,5 +1,5 @@
 import createMySQLClient from 'ai-mysql-client'
-import createRedisClient from 'ai-Redis-client'
+import createRedisClient from 'ai-redis-client'
 import { Qconf } from '@blued-core/qconf'
 
 import datum from '../config/datum'
