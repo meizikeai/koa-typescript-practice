@@ -1,6 +1,6 @@
 import qconf from './qconf'
 
-export default {
+const datum: { [key: string]: any } = {
   // MySQL
   livedataActivityMySQL: {
     qconf: qconf.livedataActivity,
@@ -18,3 +18,5 @@ export default {
     qconf: qconf.user,
   },
 }
+
+export default datum
