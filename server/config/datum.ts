@@ -2,20 +2,14 @@ import qconf from './qconf'
 
 const datum: { [key: string]: any } = {
   // MySQL
-  livedataActivityMySQL: {
-    qconf: qconf.livedataActivity,
+  activityMySQL: {
+    qconf: qconf.activity,
     database: 'activity',
   },
 
   // Redis
-  liveRedis: {
-    qconf: qconf.live,
-  },
-  liveOverseaRedis: {
-    qconf: qconf.liveOversea,
-  },
-  userRedis: {
-    qconf: qconf.user,
+  usersRedis: {
+    qconf: qconf.users,
   },
 }
 

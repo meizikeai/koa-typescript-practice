@@ -6,11 +6,6 @@ import minLayer from '../../components/popup-min-layer'
 
 import './index.scss'
 
-const layoutArgs = {
-  bodyMaxWidth: 425,
-  designWidth: 750,
-}
-
 const config = window.CONFIG || {}
 
 class App extends Component {
@@ -44,7 +39,7 @@ class App extends Component {
     const { index } = this.state
 
     return (
-      <Layout {...layoutArgs}>
+      <Layout>
         <div className='demo'>
           <h1>Hello Demo!</h1>
           <p>Welcome to Demo!</p>

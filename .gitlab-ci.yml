@@ -2,7 +2,7 @@ before_script:
   - git clone https://github.com/meizikeai/gitlab-shell-practice.git
 
 # after_script:
-  # - rm -rf gitlab-shell-practice
+# - rm -rf gitlab-shell-practice
 
 .access_branch_template: &access_branch
   only:
@@ -52,7 +52,7 @@ build:
 deploy-development:
   stage: deploy-development
   when: on_success
-  script: 
+  script:
     - bash $scripts/rollback.sh
     - bash $scripts/deploy.sh "work@192.168.0.1"
   environment:
@@ -63,7 +63,7 @@ deploy-development:
 deploy-production:
   stage: deploy-production
   when: manual
-  script: 
+  script:
     - bash $scripts/rollback.sh
     - bash $scripts/deploy.sh "work@192.168.1.1 work@192.168.1.2"
   environment:
