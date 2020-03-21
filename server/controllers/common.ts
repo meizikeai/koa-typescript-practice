@@ -22,7 +22,7 @@ export default class GeneralController {
     await ctx.render('index', response)
   }
 
-  public static async notFound(ctx: BaseContext) {
+  public static async notfound(ctx: BaseContext) {
     ctx.state = {
       status: '404',
       message: 'Not Found',

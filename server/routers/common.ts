@@ -6,6 +6,6 @@ const router = new Router()
 // common routes
 router.get('/', common.home)
 router.get('/403', common.forbidden)
-router.get('/404', common.notFound)
+router.get('/404', common.notfound)
 
 export { router }
