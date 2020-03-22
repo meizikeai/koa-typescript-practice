@@ -1,5 +1,5 @@
 /**
- * Get random int - get a random number between tow values
+ * Get random int - get a random number between two values
  *
  * @param {Number} min
  * @param {Number} max

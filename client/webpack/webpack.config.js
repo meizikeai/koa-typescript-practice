@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const Autoprefixer = require('autoprefixer')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -164,10 +165,11 @@ module.exports = (env, argv) => {
 
   if (argv.mode === 'production') {
     config.devtool = false
-    config.output.publicPath = 'https://cdn.example.com/'
+    // config.output.publicPath = 'https://cdn.example.com/'
     config.optimization.minimize = true
     config.plugins.push(new CleanWebpackPlugin())
     config.plugins.push(compressionPlugin)
+    config.plugins.push(new HTMLInlineCSSWebpackPlugin())
     // config.plugins.push(qiniuPlugin())
   } else {
     config.devtool = 'inline-source-map'

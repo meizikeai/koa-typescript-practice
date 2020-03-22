@@ -1,56 +1,66 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { render } from 'react-dom'
 
 import Layout from '../../components/layout'
-import minLayer from '../../components/popup-min-layer'
+import LayoutPC from '../../components/layout-pc'
+import MinLayer from '../../components/popup-min-layer'
 
 import './index.scss'
 
 const config = window.CONFIG || {}
 
 class App extends Component {
+  static propTypes = {
+    device: PropTypes.bool,
+  }
+
   constructor (props) {
     super(props)
     this.state = { index: 0 }
   }
 
-  componentWillMount () {
-    // use node-fetch to Node.js and window
-    fetch('/json').then(response => response.json()).then(body => {
-      console.log(body)
-    })
-  }
-
   componentDidMount () {
-    console.log(this.props)
+    fetch('/json').then(response => response.json()).then(res => {
+      console.log(res)
+    })
   }
 
   handleClick = () => {
     const { index } = this.state
 
-    minLayer.show({ content: 'I also want to look for a girlfriend...' })
+    MinLayer.show({ content: 'I also want to look for a girlfriend...' })
 
     this.setState({
       index: index + 1,
     })
   }
 
-  render () {
+  mainContent = () => {
     const { index } = this.state
+    const { device } = this.props
 
     return (
-      <Layout>
-        <div className='demo'>
-          <h1>Hello Demo!</h1>
-          <p>Welcome to Demo!</p>
-          <div className='click'>
-            You clicked
-            <span>{index}</span>
-            times
-          </div>
-          <button type='button' onClick={this.handleClick}>Click me</button>
+      <div className={`${device ? 'demo-pc' : 'demo'}`}>
+        <h1>Hello Demo!</h1>
+        <p>Welcome to Demo!</p>
+        <div className='click'>
+          You clicked
+          <span>{index}</span>
+          times
         </div>
-      </Layout>
+        <button type='button' onClick={this.handleClick}>Click me</button>
+      </div>
+    )
+  }
+
+  render () {
+    const { device } = this.props
+
+    return (
+      <div className='wrapper'>
+        {device ? <Layout>{this.mainContent()}</Layout> : <LayoutPC>{this.mainContent()}</LayoutPC>}
+      </div>
     )
   }
 }

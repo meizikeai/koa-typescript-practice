@@ -1,25 +1,24 @@
 import { BaseContext } from 'koa'
-import { getAnchor, getUser } from '../models/common'
+import ctxUtils from '../libs/ctx-utils'
+// import { getAnchor, getUser } from '../models/common'
 
 export default class GeneralController {
   public static async home(ctx: BaseContext) {
-    const result = {
-      title: 'Hello Koa 2!',
-    }
-    const response = Object.assign({
-      menu: true,
-      sharebar: true,
-    }, result)
+    const { device } = ctxUtils({ ctx })
 
     ctx.state = {
-      a: 'Who is my love?',
-      b: 'Is you?',
+      title: 'Hello Koa 2!',
+      device: device ? 'Personal Computer' : 'Mobile Phone',
+      config: JSON.stringify({
+        question: 'Who is my love?',
+        answer: 'Is you?',
+      }),
     }
 
-    await getAnchor({ ctx })
-    await getUser({ ctx })
+    // await getAnchor({ ctx })
+    // await getUser({ ctx })
 
-    await ctx.render('index', response)
+    await ctx.render('index')
   }
 
   public static async notfound(ctx: BaseContext) {
