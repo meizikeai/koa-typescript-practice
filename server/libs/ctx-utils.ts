@@ -21,6 +21,6 @@ export default (options: OptionsConfig) => {
 
   return {
     common,
-    device,
+    device: !device,
   }
 }
