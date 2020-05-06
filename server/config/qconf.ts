@@ -1,9 +1,20 @@
-const qconf: { [key: string]: string } = {
-  // MySQL
-  activity: '/blued/backend/udb/livedata_activity',
-
-  // Redis
-  users: '/blued/backend/umem/users',
+// MySQL
+const mysql: { [key: string]: string } = {
+  common: '/common/backend/mysql',
 }
 
-export default qconf
+// Redis
+const redis: { [key: string]: string } = {
+  common: '/common/backend/redis',
+}
+
+// Server
+const server: { [key: string]: string } = {
+  common: '/common/backend/server',
+}
+
+export {
+  mysql,
+  redis,
+  server,
+}

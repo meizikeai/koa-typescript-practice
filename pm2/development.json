@@ -3,7 +3,7 @@
   "script": "/home/work/koa-typescript-practice/build/app.js",
   "error_file": "/data/logs/pm2/koa-typescript-practice/error.log",
   "out_file": "/data/logs/pm2/koa-typescript-practice/out.log",
-  "log_date_format": "YYYY-MM-DD HH:mm Z",
+  "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
   "merge_logs": true,
   "ignore_watch": [
     "node_modules"

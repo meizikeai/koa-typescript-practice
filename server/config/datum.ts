@@ -1,15 +1,17 @@
-import qconf from './qconf'
+import { mysql, redis, server } from './qconf'
 
 const datum: { [key: string]: any } = {
-  // MySQL
-  activityMySQL: {
-    qconf: qconf.activity,
-    database: 'activity',
+  commonMySQL: {
+    qconf: mysql.common,
+    database: 'common',
   },
 
-  // Redis
-  usersRedis: {
-    qconf: qconf.users,
+  commonRedis: {
+    qconf: redis.common,
+  },
+
+  commonServer: {
+    qconf: server.common,
   },
 }
 

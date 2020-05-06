@@ -68,9 +68,9 @@ const getQconfConf = (key: string) => {
 }
 
 export {
+  getQconfAllHost,
   getQconfConf,
   getQconfHost,
-  getQconfAllHost,
   mysqlClient,
   redisClient,
 }
