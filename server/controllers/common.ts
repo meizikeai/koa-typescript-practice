@@ -21,18 +21,45 @@ export default class GeneralController {
     await ctx.render('index')
   }
 
-  public static async notfound(ctx: BaseContext) {
-    ctx.state = {
-      status: '404',
-      message: 'Not Found',
+  public static async notfound(ctx: BaseContext, next: Function) {
+    const accepts = ctx.accepts('html', 'json')
+
+    if (accepts === 'html') {
+      ctx.state = {
+        status: '404',
+        message: 'Page Not Found',
+      }
+      await ctx.render('error')
+      await next()
+    } else if (accepts === 'json') {
+      ctx.body = {
+        code: 404,
+        message: 'Page Not Found',
+      }
+    } else {
+      ctx.type = 'text'
+      ctx.body = 'Page Not Found'
     }
-    await ctx.render('error')
   }
 
-  public static async forbidden(ctx: BaseContext) {
-    await ctx.render('error', {
-      status: '403',
-      message: 'Forbidden',
-    })
+  public static async forbidden(ctx: BaseContext, next: Function) {
+    const accepts = ctx.accepts('html', 'json')
+
+    if (accepts === 'html') {
+      ctx.state = {
+        status: '403',
+        message: 'Forbidden',
+      }
+      await ctx.render('error')
+      await next()
+    } else if (accepts === 'json') {
+      ctx.body = {
+        code: 403,
+        message: 'Forbidden',
+      }
+    } else {
+      ctx.type = 'text'
+      ctx.body = 'Forbidden'
+    }
   }
 }
