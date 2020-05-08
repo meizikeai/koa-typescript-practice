@@ -21,6 +21,8 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import './index.css'
 
+let popupMinLayerScrollTop = 0
+
 class PopupMinLayer extends Component {
   static propTypes = {
     content: PropTypes.string,
@@ -74,9 +76,28 @@ class PopupMinLayer extends Component {
 }
 
 /**
+ * 获取滚动条位置
+ */
+const getScrollTop = () => {
+  const total = document.body.scrollTop + document.documentElement.scrollTop
+  return parseInt(total, 10)
+}
+
+/**
+ * 设置滚动条位置
+ * @param {number} top 位置
+ */
+const setScrollTop = top => {
+  document.body.scrollTop = top
+  document.documentElement.scrollTop = top
+}
+
+/**
  * disableScroll 禁止滚动条
  */
 function disableScroll () {
+  popupMinLayerScrollTop = getScrollTop()
+
   const toastNode = document.querySelector('.toast-model-mini')
 
   document.documentElement.style.overflow = 'hidden'
@@ -96,8 +117,10 @@ function restartScroll () {
   const toastNode = document.querySelector('.toast-model-mini')
   const marker = document.querySelector('.toast-marker')
   if (!marker) {
-    document.documentElement.style.overflow = 'auto'
-    document.body.style.overflow = 'auto'
+    document.documentElement.style.overflow = 'inherit'
+    document.body.style.overflow = 'inherit'
+
+    setScrollTop(popupMinLayerScrollTop)
   }
 
   if (toastNode) {
