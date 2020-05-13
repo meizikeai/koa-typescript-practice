@@ -37,7 +37,10 @@ app.use(koaBody({ multipart: true }))
 app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }))
 
 // compress
-app.use(compress())
+app.use(compress({
+  threshold: 2048,
+}))
+
 app.use(helmet())
 
 // cors

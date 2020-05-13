@@ -1,8 +1,8 @@
-import { BaseContext } from 'koa'
+import { Context } from 'koa'
 import ctxUtils from '../libs/ctx-utils'
 
 export default class Test {
-  public static async demo(ctx: BaseContext) {
+  public static async demo(ctx: Context) {
     const { device } = ctxUtils({ ctx })
 
     ctx.state = Object.assign({}, {
@@ -17,13 +17,13 @@ export default class Test {
     await ctx.render('demo')
   }
 
-  public static async json(ctx: BaseContext) {
+  public static async json(ctx: Context) {
     ctx.body = {
       title: 'koa2 json',
     }
   }
 
-  public static async string(ctx: BaseContext) {
+  public static async string(ctx: Context) {
     ctx.body = 'koa2 string'
   }
 }

@@ -17,7 +17,7 @@ const mysqlClient = (key: string) => {
   return createMySQLClient({
     key,
     option: qconf,
-  })
+  })()
 }
 
 const redisClient = (key: string) => {
@@ -28,7 +28,7 @@ const redisClient = (key: string) => {
   return createRedisClient({
     key,
     option: qconf,
-  })
+  })()
 }
 
 const getQconfHost = (key: string) => {
@@ -40,7 +40,7 @@ const getQconfHost = (key: string) => {
     key,
     path: datum[key].qconf,
     option: qconf,
-  })
+  })()
 }
 
 const getQconfAllHost = (key: string) => {
@@ -52,7 +52,7 @@ const getQconfAllHost = (key: string) => {
     key,
     path: datum[key].qconf,
     option: qconf,
-  })
+  })()
 }
 
 const getQconfConf = (key: string) => {
@@ -64,7 +64,7 @@ const getQconfConf = (key: string) => {
     key,
     path: datum[key].qconf,
     option: qconf,
-  })
+  })()
 }
 
 export {

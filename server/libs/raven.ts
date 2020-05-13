@@ -1,7 +1,7 @@
 import raven from 'raven'
-import { isPro } from '../config/env'
+import { isPro, isLocalPro, isDev } from '../config/env'
 
-const ravenUrl = isPro ? '' : ''
+const ravenUrl = !isLocalPro && (isPro || isDev) ? '' : ''
 
 raven.disableConsoleAlerts()
 

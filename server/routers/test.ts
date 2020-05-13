@@ -1,7 +1,9 @@
 import Router from 'koa-router'
+import { DefaultState, Context } from 'koa'
+
 import test from '../controllers/test'
 
-const router = new Router()
+const router = new Router<DefaultState, Context>()
 
 // test routes
 router.get('/demo', test.demo)

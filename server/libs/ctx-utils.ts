@@ -5,11 +5,11 @@
  *   - common      {object}      模块引用的公共脚本
  *   - phone       {Boolean}     判断终端环境
  */
-import { BaseContext } from 'koa'
+import { Context } from 'koa'
 import isPhone from './is-phone'
 
 interface OptionsConfig {
-  ctx: BaseContext,
+  ctx: Context,
 }
 
 export default (options: OptionsConfig) => {
