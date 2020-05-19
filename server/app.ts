@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
-import cors from 'koa-better-cors'
+// import cors from '@koa/cors'
 import helmet from 'koa-helmet'
 import json from 'koa-json'
 import jsonp from 'koa-safe-jsonp'
@@ -43,11 +43,20 @@ app.use(compress({
 
 app.use(helmet())
 
-// cors
-app.use(cors({
-  origin: '*',
-  methods: 'POST, GET, OPTIONS',
-}))
+// app.use(cors({
+//   credentials: true,
+//   maxAge: 5 * 60,
+//   origin: (e: any) => {
+//     const white = [
+//       'http://127.0.0.1:7000',
+//       'http://127.0.0.1:9000',
+//     ]
+
+//     if (white.includes(e.header.origin)) {
+//       return e.header.origin
+//     }
+//   },
+// }))
 
 // json
 app.use(json())
