@@ -43,6 +43,7 @@ app.use(compress({
 
 app.use(helmet())
 
+// cors
 // app.use(cors({
 //   credentials: true,
 //   maxAge: 5 * 60,
@@ -120,7 +121,7 @@ app.use(async (ctx, next) => {
 // error-handling
 loggerError.on('error', (err, ctx) => {
   raven.captureException(err)
-  console.log(err, ctx)
+  console.error(err, ctx)
 })
 
 process.on('uncaughtException', err => {
