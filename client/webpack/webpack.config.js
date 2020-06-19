@@ -42,7 +42,7 @@ const config = {
     runtimeChunk: true,
     minimizer: [
       new OptimizeCssAssetsPlugin(),
-      new UglifyWebpackPlugin({ sourceMap: true }),
+      new UglifyWebpackPlugin({ sourceMap: true, parallel: true }),
     ],
   },
   module: {
@@ -115,8 +115,10 @@ const htmlPlugin = address => {
     // hash: true,
     // chunks: ['runtime', 'vendors', address],
     minify: {
-      removeComments: true,
       collapseWhitespace: true,
+      inject: true,
+      minifyCSS: true,
+      removeComments: true,
     },
   })
 }

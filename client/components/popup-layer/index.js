@@ -27,6 +27,8 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import './index.css'
 
+let popupLayerScrollTop = 0
+
 class PopupLayer extends Component {
   static propTypes = {
     show: PropTypes.bool,
@@ -138,15 +140,34 @@ class PopupLayer extends Component {
 }
 
 /**
+ * 获取滚动条位置
+ */
+const getScrollTop = () => {
+  const total = document.body.scrollTop + document.documentElement.scrollTop
+  return parseInt(total, 10)
+}
+
+/**
+ * 设置滚动条位置
+ * @param {number} top 位置
+ */
+const setScrollTop = top => {
+  document.body.scrollTop = top
+  document.documentElement.scrollTop = top
+}
+
+/**
  * disableScroll 禁止滚动条
  */
-function disableScroll () {
+function disableScroll (scroll) {
+  popupLayerScrollTop = getScrollTop()
+
   const toastNode = document.querySelector('.toast-model-layer')
 
   document.documentElement.style.overflow = 'hidden'
   document.body.style.overflow = 'hidden'
 
-  if (toastNode) {
+  if (toastNode && !scroll) {
     toastNode.addEventListener('touchmove', event => {
       event.preventDefault()
     }, false)
@@ -159,8 +180,10 @@ function disableScroll () {
 function restartScroll () {
   const toastNode = document.querySelector('.toast-model-layer')
 
-  document.documentElement.style.overflow = 'auto'
-  document.body.style.overflow = 'auto'
+  document.documentElement.style.overflow = 'inherit'
+  document.body.style.overflow = 'inherit'
+
+  setScrollTop(popupLayerScrollTop)
 
   if (toastNode) {
     toastNode.removeEventListener('touchmove', event => {
@@ -182,7 +205,7 @@ function createToast () {
 
 export default {
   show (options) {
-    const { title, content, duration, confirm, cancel, validate, layer } = options
+    const { title, content, duration, confirm, cancel, validate, layer, scroll } = options
     const toast = createToast()
 
     if (duration && typeof duration === 'number') {
@@ -204,6 +227,6 @@ export default {
       layer={layer}
       node={toast} />, toast)
 
-    disableScroll()
+    disableScroll(scroll)
   },
 }
