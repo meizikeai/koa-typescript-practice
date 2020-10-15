@@ -41,7 +41,9 @@ app.use(compress({
   threshold: 2048,
 }))
 
-app.use(helmet())
+app.use(helmet({
+  contentSecurityPolicy: false,
+}))
 
 // cors
 app.use(cors({
