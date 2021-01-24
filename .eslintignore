@@ -1,4 +1,5 @@
-# Ignore built files except build/index.js
+# Ignore the following files/folders
 
 build
 dll
+webpack

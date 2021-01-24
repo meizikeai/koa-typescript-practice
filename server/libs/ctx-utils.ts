@@ -9,7 +9,7 @@ import { Context } from 'koa'
 import isPhone from './is-phone'
 
 interface OptionsConfig {
-  ctx: Context,
+  ctx: Context
 }
 
 export default (options: OptionsConfig) => {

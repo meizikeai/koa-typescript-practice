@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 const loader = async (dir: string) => {
-  const result = await import(dir).catch(err => {
+  const result = await import(dir).catch((err) => {
     console.error(err)
   })
 

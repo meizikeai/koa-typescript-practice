@@ -21,9 +21,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/json').then(response => response.json()).then(res => {
-      console.log(res)
-    })
+    fetch('/json')
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   handleClick = () => {
@@ -51,7 +53,9 @@ class App extends Component {
           <span>{index}</span>
           times
         </div>
-        <button type='button' onClick={this.handleClick}>Click me</button>
+        <button type='button' onClick={this.handleClick}>
+          Click me
+        </button>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import ctxUtils from '../libs/ctx-utils'
-// import { getAnchor, getUser } from '../models/common'
+import { getAnchor, getUser } from '../models/common'
 
 export default class GeneralController {
   public static async home(ctx: Context) {
@@ -15,13 +15,13 @@ export default class GeneralController {
       }),
     }
 
-    // await getAnchor()
-    // await getUser()
+    await getAnchor()
+    await getUser()
 
     await ctx.render('index')
   }
 
-  public static async notfound(ctx: Context, next: Function) {
+  public static async notfound(ctx: Context, next: () => void) {
     const accepts = ctx.accepts('html', 'json')
 
     if (accepts === 'html') {
@@ -42,7 +42,7 @@ export default class GeneralController {
     }
   }
 
-  public static async forbidden(ctx: Context, next: Function) {
+  public static async forbidden(ctx: Context, next: () => void) {
     const accepts = ctx.accepts('html', 'json')
 
     if (accepts === 'html') {

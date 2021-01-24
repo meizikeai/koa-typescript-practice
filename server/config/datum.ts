@@ -1,18 +1,13 @@
-import { mysql, redis, server } from './qconf'
+import development from './development'
+import production from './production'
+import { isPro, isLocalPro } from '../config/env'
 
-const datum: { [key: string]: any } = {
-  commonMySQL: {
-    qconf: mysql.common,
-    database: 'common',
-  },
+let datum = development
 
-  commonRedis: {
-    qconf: redis.common,
-  },
-
-  commonServer: {
-    qconf: server.common,
-  },
+if (isPro) {
+  datum = production
+} else if (isLocalPro) {
+  datum = production
 }
 
 export default datum

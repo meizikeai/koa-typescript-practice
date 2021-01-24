@@ -4,7 +4,7 @@ import { mysqlClient, redisClient } from '../libs/connect'
 async function getAnchor() {
   const commonMySQL = mysqlClient('commonMySQL')
 
-  const selectSQL = `SELECT uid FROM Table limit 0 ,10`
+  const selectSQL = `SELECT * FROM users limit 0 ,10`
   const result = await commonMySQL.query(selectSQL).catch((err: any) => {
     logger.error(err, { tips: 'test -> query error' })
   })
@@ -26,7 +26,4 @@ async function getUser() {
   return result
 }
 
-export {
-  getAnchor,
-  getUser,
-}
+export { getAnchor, getUser }

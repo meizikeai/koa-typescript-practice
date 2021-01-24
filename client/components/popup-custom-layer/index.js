@@ -98,7 +98,7 @@ const getScrollTop = () => {
  * 设置滚动条位置
  * @param {number} top 位置
  */
-const setScrollTop = top => {
+const setScrollTop = (top) => {
   document.body.scrollTop = top
   document.documentElement.scrollTop = top
 }
@@ -164,13 +164,17 @@ export default {
       }, duration)
     }
 
-    ReactDOM.render(<PopupCustomLayer
-      content={content}
-      confirm={confirm}
-      handler={handler}
-      height={document.body.clientHeight}
-      layer={layer}
-      node={toast} />, toast)
+    ReactDOM.render(
+      <PopupCustomLayer
+        content={content}
+        confirm={confirm}
+        handler={handler}
+        height={document.body.clientHeight}
+        layer={layer}
+        node={toast}
+      />,
+      toast
+    )
 
     disableScroll(scroll)
   },

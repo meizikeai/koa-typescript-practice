@@ -21,11 +21,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/json').then(response => response.json()).then(res => {
-      console.log(res)
-    })
+    fetch('/json')
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res)
+      })
 
-    const test = [1, 2, 3, 4].findIndex(element => element === 2)
+    const test = [1, 2, 3, 4].findIndex((element) => element === 2)
 
     console.log(test)
   }
@@ -39,7 +41,9 @@ class App extends Component {
       index: index + 1,
     })
 
-    const back = await fetch('/json').then(response => response.json()).then(res => res)
+    const back = await fetch('/json')
+      .then((response) => response.json())
+      .then((res) => res)
 
     console.log(back)
   }
@@ -57,7 +61,9 @@ class App extends Component {
           <span>{index}</span>
           times
         </div>
-        <button type='button' onClick={this.handleClick}>Click me</button>
+        <button type='button' onClick={this.handleClick}>
+          Click me
+        </button>
       </div>
     )
   }

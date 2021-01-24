@@ -1,7 +1,6 @@
 import fetch from 'node-fetch'
 import crypto from 'crypto'
 import logger from '../libs/logger'
-import { getQconfHost } from '../libs/connect'
 
 interface RejectFunc {
   (error: any): any
@@ -12,31 +11,20 @@ interface ResolveFunc {
 }
 
 interface Option {
-  url: string,
-  data?: any,
-  headers?: { [key: string]: string },
-  method?: string,
-  qconf: string,
-  reject?: RejectFunc,
-  resolve: ResolveFunc,
+  url: string
+  data?: any
+  headers?: { [key: string]: string }
+  method?: string
+  qconf: string
+  reject?: RejectFunc
+  resolve: ResolveFunc
 }
 
-async function request({
-  url,
-  data,
-  headers = {},
-  method = 'get',
-  qconf,
-  reject,
-  resolve,
-}: Option) {
+async function request({ url, data, headers = {}, method = 'get', reject, resolve }: Option) {
   let request = ''
 
-  if (/^http/ig.test(url)) {
+  if (/^http/gi.test(url)) {
     request = url
-  } else {
-    const protocol = getQconfHost(qconf)
-    request = `http://${protocol.host}:${protocol.port}${url}`
   }
 
   const option: any = {
@@ -53,15 +41,15 @@ async function request({
   }
 
   const result = await fetch(request, option)
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       logger.info({ url: request, option, result: res })
 
       if (typeof resolve === 'function') {
         return resolve(res)
       }
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error, { url: request, option })
 
       if (typeof reject === 'function') {

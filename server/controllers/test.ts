@@ -5,14 +5,17 @@ export default class Test {
   public static async demo(ctx: Context) {
     const { device } = ctxUtils({ ctx })
 
-    ctx.state = Object.assign({}, {
-      title: 'Hello Demo!',
-      config: JSON.stringify({
-        device,
-        question: 'Who is my love?',
-        answer: 'Is you?',
-      }),
-    })
+    ctx.state = Object.assign(
+      {},
+      {
+        title: 'Hello Demo!',
+        config: JSON.stringify({
+          device,
+          question: 'Who is my love?',
+          answer: 'Is you?',
+        }),
+      }
+    )
 
     await ctx.render('demo')
   }
@@ -20,14 +23,17 @@ export default class Test {
   public static async test(ctx: Context) {
     const { device } = ctxUtils({ ctx })
 
-    ctx.state = Object.assign({}, {
-      title: 'Hello Demo!',
-      config: JSON.stringify({
-        device,
-        question: 'Who is my love?',
-        answer: 'Is you?',
-      }),
-    })
+    ctx.state = Object.assign(
+      {},
+      {
+        title: 'Hello Demo!',
+        config: JSON.stringify({
+          device,
+          question: 'Who is my love?',
+          answer: 'Is you?',
+        }),
+      }
+    )
 
     await ctx.render('2020/test')
   }

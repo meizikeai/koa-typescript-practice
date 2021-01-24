@@ -1,21 +1,23 @@
+// eslint-disable-next-line
 const path = require('path')
 
 module.exports = {
   env: {
     browser: true,
     commonjs: true,
-    node: true,
+    es6: true,
   },
   parserOptions: {
     ecmaVersion: 8,
   },
-  extends: [
-    'blued-react',
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.js', '.json'],
       },
       alias: {
         map: [
@@ -25,4 +27,7 @@ module.exports = {
       },
     },
   },
+  parser: 'babel-eslint',
+  plugins: ['react'],
+  rules: {},
 }
