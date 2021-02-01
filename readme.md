@@ -15,7 +15,7 @@ https://github.com/meizikeai/koa-typescript-practice.git
 | client        | react.js           | --   |
 | pm2           | pm2.keymetrics.io  | --   |
 | public        | koa-static         | --   |
-| server        | koa / typescript   | --   |
+| server        | koa.js / typescriptlang.org   | --   |
 | views         | koa-views          | --   |
 | package.json  | package.json       | --   |
 | tsconfig.json | typescriptlang.org | --   |

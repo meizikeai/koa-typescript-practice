@@ -1,7 +1,8 @@
 # Ignore the following files/folders
 
-*.log
 .DS_Store
-node_modules
+.vscode
+
 build
 logs
+node_modules
