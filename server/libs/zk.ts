@@ -113,14 +113,19 @@ async function getMySQL() {
       switch (val) {
         case 'master':
           back[0] = 'master'
+          break
         case 'slave':
           back[1] = 'slave'
+          break
         case 'username':
           back[2] = 'username'
+          break
         case 'password':
           back[3] = 'password'
+          break
         case 'database':
           back[4] = 'database'
+          break
       }
     })
 
