@@ -12,7 +12,7 @@ module.exports = () => new Promise(resolve => {
   const args = []
 
   inquirer.prompt(questions).then(answers => {
-    args.push(`--env.p=${answers.project}`)
+    args.push(`--env p=${answers.project}`)
 
     console.warn('↓ Please wait for webpack execution to complete →')
 

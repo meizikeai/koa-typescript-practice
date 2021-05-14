@@ -1,13 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 
-const qiniu = {
-  bucket: 'xxx',
-  cdnBase: 'xxx',
-  accessKey: 'xxx',
-  secretKey: 'xxx',
-}
-
 const isDirectory = dir => {
   let result = false
 
@@ -68,5 +61,4 @@ module.exports = {
   getFolder,
   isDirectory,
   manifest: dllPlugin.manifest,
-  qiniu,
 }
