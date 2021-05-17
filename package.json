@@ -17,7 +17,8 @@
     "webpack-dll": "webpack --config client/webpack/webpack.dll.js",
     "watch-ts": "tsc -w",
     "build-ts": "rm -rf build/* && tsc",
-    "check": "eslint --ext .ts,.js . --fix"
+    "check": "eslint --ext .ts,.js . --fix",
+    "prepare": "husky install"
   },
   "keywords": [
     "koa",
@@ -109,11 +110,5 @@
     "webpack": "^5.37.0",
     "webpack-cli": "^4.7.0",
     "whatwg-fetch": "^3.6.2"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run check"
-    }
   }
 }
