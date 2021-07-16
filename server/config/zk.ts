@@ -1,6 +1,6 @@
 const zk: { [key: string]: { [key: string]: string } } = {
   mysql: {
-    livedataActivity: '/blued/backend/udb/livedata_activity',
+    activity: '/blued/backend/udb/livedata_activity',
   },
   redis: {
     users: '/blued/backend/umem/users',

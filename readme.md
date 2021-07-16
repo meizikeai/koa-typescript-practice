@@ -48,3 +48,7 @@ https://github.com/meizikeai/koa-typescript-practice.git
   + test[测试]: 测试用例，包括单元测试、集成测试等
   + chore[工具]: 改变构建流程、或者增加依赖库、工具等
   + revert[回滚]: 回滚到上一个版本
+
+#### 监控支持
+
+使用 elastic-apm-node 对项目进行性能监控，具体见 [Get started with Koa](https://www.elastic.co/guide/en/apm/agent/nodejs/current/koa.html)

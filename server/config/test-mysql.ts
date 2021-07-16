@@ -5,8 +5,7 @@ const datum: {
     username: string
     password: string
     database: string
-    connections?: number
-    time?: number
+    connection?: number
   }
 } = {
   default: {
@@ -15,8 +14,7 @@ const datum: {
     username: 'root',
     password: 'yintai@123',
     database: 'test',
-    connections: 50,
-    time: 60 * 60 * 1,
+    connection: 100,
   },
 }
 

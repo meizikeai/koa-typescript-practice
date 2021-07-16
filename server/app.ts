@@ -1,4 +1,5 @@
 import Koa from 'koa'
+// import apm from 'elastic-apm-node'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
 import cors from '@koa/cors'
@@ -12,12 +13,14 @@ import serve from 'koa-static'
 import views from 'koa-views'
 
 import handleRouter from './system/control/handle-router'
-// import handleZookeeper from './libs/zk'
-import raven from './libs/raven'
+import { awaitZookeeper, handleZookeeper } from './libs/zookeeper'
 import { isPro } from './config/env'
 
 const app = new Koa()
 const port = process.env.PORT || 3000
+
+// zookeeper
+handleZookeeper()
 
 // logger
 app.use(
@@ -26,8 +29,12 @@ app.use(
   })
 )
 
-// zookeeper
-// handleZookeeper()
+// apm.start({
+//   serviceName: '',
+//   secretToken: '',
+//   apiKey: '',
+//   serverUrl: '',
+// })
 
 // public
 app.use(serve(path.join(__dirname, '../public')))
@@ -136,12 +143,10 @@ app.use(async (ctx, next) => {
 // error-handling
 process.on('uncaughtException', (err: any, origin: any) => {
   console.error(`${process.stderr.fd}, Caught exception: ${err}, Exception origin: ${origin}`)
-  raven.captureException(err)
 })
 
 process.on('unhandledRejection', (reason: any, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason)
-  raven.captureException(reason)
 })
 
 app.on('error', (err) => {
@@ -149,6 +154,8 @@ app.on('error', (err) => {
 })
 
 // listening
-app.listen(port, () => {
-  console.log(`Server running on 127.0.0.1:${port}`)
+awaitZookeeper().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on 127.0.0.1:${port}`)
+  })
 })

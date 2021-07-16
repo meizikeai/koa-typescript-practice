@@ -1,7 +1,8 @@
 import ZooKeeper from 'zookeeper'
 import zk from '../config/zk'
 import { getRandomSubscript } from '../libs/random'
-import { isPro, isLocalPro, release, test } from '../config/env'
+import { setCache, getCache } from '../libs/cache-store'
+import { isPro, isLocalPro, release, test, useZookeeper } from '../config/env'
 
 interface ConfigMySQL {
   master: Array<string>
@@ -9,30 +10,15 @@ interface ConfigMySQL {
   username: string
   password: string
   database: string
+  connection?: number
 }
 
 interface ConfigRedis {
   master: Array<string>
   password: string
+  family?: number
   db: number
 }
-
-// interface Person {
-//   [propName: string]: ConfigMySQL
-// }
-
-// 方法一
-// 由于 connect(options, connect_cb) 方式的回调是 callback 即异步，其里面的方法不能实时返回
-// 导致外部方法不能通过await拿到数据，原因是 connect_cb 时异步执行，return 没任何意义
-// 获取方式问题
-
-// 方式二
-// 通过全局变量，并把获取的方法在项目启动时第一个执行
-// 如启动完成即要拉取数据，有可能全局变量还没拉取到值，从而导致error的发生
-// 此方式行不通，也不建议
-global.zookeeperConfigMySQL = {}
-global.zookeeperConfigRedis = {}
-global.zookeeperConfigServer = {}
 
 function getZkConfig() {
   let zk = test
@@ -49,54 +35,63 @@ function getZkConfig() {
   return result
 }
 
-let client: ZooKeeper
-
 /**
  * @param timeoutMs {number}
  * @returns {ZooKeeper}
  */
 function createClient(timeoutMs = 5000) {
-  if (!client) {
-    const config = {
-      connect: getZkConfig(),
-      timeout: timeoutMs,
-      debug_level: ZooKeeper.ZOO_LOG_LEVEL_WARN,
-      host_order_deterministic: false,
-    }
-
-    client = new ZooKeeper(config)
-
-    client.on('close', () => {
-      console.log('close', `session closed, id=${client.client_id}`)
-
-      client = null
-    })
-
-    client.on('connecting', () => {
-      console.log('connecting', `session connecting, id=${client.client_id}`)
-    })
-
-    client.on('connect', () => {
-      console.log('connect', `session connect, id=${client.client_id}`)
-    })
-
-    setTimeout(() => {
-      client.init({})
-    }, 500)
+  const config = {
+    connect: getZkConfig(),
+    timeout: timeoutMs,
+    debug_level: ZooKeeper.ZOO_LOG_LEVEL_WARN,
+    host_order_deterministic: false,
   }
+
+  let client = new ZooKeeper(config)
+
+  client.on('close', () => {
+    console.log('close', `session closed, id=${client.client_id}`)
+    client = null
+  })
+
+  client.on('connecting', () => {
+    console.log('connecting', `session connecting, id=${client.client_id}`)
+  })
+
+  client.on('connect', () => {
+    console.log('connect', `session connect, id=${client.client_id}`)
+  })
+
+  client.init(config)
 
   return client
 }
 
-function handleZookeeper() {
+async function handleZookeeper() {
+  if (!useZookeeper) {
+    return
+  }
+
   const client = createClient()
 
   client.on('connect', async () => {
-    await Promise.all([await getMySQL(), await getRedis(), await getServer()])
+    const [mysql, redis, server] = await Promise.all([
+      await getMySQL(client),
+      await getRedis(client),
+      await getServer(client),
+    ])
+
+    setCache('mysql', mysql)
+    setCache('redis', redis)
+    setCache('server', server)
+
+    client.close()
   })
 }
 
-async function getMySQL() {
+async function getMySQL(client: ZooKeeper) {
+  const result: any = {}
+
   for (const key in zk.mysql) {
     const path = zk.mysql[key]
     const mysql: ConfigMySQL = {
@@ -151,11 +146,15 @@ async function getMySQL() {
 
     console.log('Children of %s are: %j.', path, mysql)
 
-    global.zookeeperConfigMySQL[key] = mysql
+    result[key] = mysql
   }
+
+  return result
 }
 
-async function getRedis() {
+async function getRedis(client: ZooKeeper) {
+  const result: any = {}
+
   for (const key in zk.redis) {
     const path = zk.redis[key]
     const redis: ConfigRedis = {
@@ -169,23 +168,47 @@ async function getRedis() {
 
     console.log('Children of %s are: %j.', path, res)
 
-    global.zookeeperConfigRedis[key] = redis
+    result[key] = redis
   }
+
+  return result
 }
 
-async function getServer() {
+async function getServer(client: ZooKeeper) {
+  const result: any = {}
+
   for (const key in zk.server) {
-    let server = ''
     const path = zk.server[key]
     const master = await client.get_children(path, false)
-    const count = getRandomSubscript(master.length)
-
-    server = master[count]
 
     console.log('Children of %s are: %j.', path, master)
 
-    global.zookeeperConfigServer[key] = server
+    result[key] = master
   }
+
+  return result
 }
 
-export default handleZookeeper
+async function awaitZookeeper() {
+  return await new Promise((resolve) => {
+    if (!useZookeeper) {
+      resolve(false)
+      return
+    }
+
+    console.log('Server use zookeeper ...')
+
+    const timer = setInterval(() => {
+      const mysql = getCache('mysql')
+      const redis = getCache('redis')
+      const server = getCache('server')
+
+      if (typeof mysql === 'object' && typeof redis === 'object' && typeof server === 'object') {
+        resolve(true)
+        clearInterval(timer)
+      }
+    }, 30)
+  })
+}
+
+export { awaitZookeeper, handleZookeeper }

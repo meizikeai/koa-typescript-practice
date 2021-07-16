@@ -1,5 +1,5 @@
 import logger from '../libs/logger'
-import { mysqlClient, redisClient } from '../libs/connect'
+import { mysqlClient, redisClient, serverClient } from '../libs/connect'
 
 // 数据结构
 // CREATE TABLE `test_user` (
@@ -17,10 +17,13 @@ import { mysqlClient, redisClient } from '../libs/connect'
 // ) ENGINE=InnoDB AUTO_INCREMENT=1000002 DEFAULT CHARSET=utf8;
 
 async function getAnchor() {
-  const defaultMySQL = mysqlClient('default')
+  const testhost = serverClient('send')
+  console.log(`http://${testhost}`)
+
+  const defaultMySQL = mysqlClient('default.master')
 
   const selectSQL = 'SELECT * FROM test_user LIMIT 0,10'
-  const result = await defaultMySQL.query(selectSQL).catch((err: any) => {
+  const [result] = await defaultMySQL.query(selectSQL).catch((err: any) => {
     logger.error(err, { tips: 'test -> query error' })
   })
 
@@ -30,13 +33,23 @@ async function getAnchor() {
 }
 
 async function getUser() {
-  const defaultRedis = redisClient('default')
+  const defaultRedis = redisClient('default.master')
 
   const result = await defaultRedis.hgetall('u:113').catch((err: any) => {
     logger.error(err, { tips: 'test -> query error' })
   })
 
   logger.info({ result })
+
+  // 使用 pipeline
+  const pipeline = defaultRedis.pipeline()
+
+  pipeline.hset('u:133', 'test', '测试一下')
+  // pipeline.hdel('u:133', 'test')
+  pipeline.hget('u:133', 'test')
+  pipeline.exec((err: any, result: any) => {
+    console.log(err, result)
+  })
 
   return result
 }
