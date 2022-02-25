@@ -8,10 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require("terser-webpack-plugin")
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { dll, isDirectory, manifest } = require('./config')
-
-const environment = ['core-js/es/map', 'core-js/es/set']
 
 const config = {
   stats: {
@@ -23,6 +20,7 @@ const config = {
     chunkFilename: '[name]~[contenthash:8].js',
     path: path.resolve(__dirname, '../../public/build'),
     publicPath: '/build/',
+    clean: true,
   },
   optimization: {
     splitChunks: {
@@ -86,7 +84,10 @@ const config = {
     extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
   ],
 }
 
@@ -146,7 +147,7 @@ module.exports = (env, argv) => {
         const tplPath = `${item.split('/pages/')[1].split('/index.js')[0]}`
         const page = tplPath.replace(/\//ig, '~')
 
-        entry[page] = environment.concat([item])
+        entry[page] = [item]
       })
     })
   } else {
@@ -154,8 +155,8 @@ module.exports = (env, argv) => {
     const dir = path.resolve(__dirname, `../pages/${env.p}`)
 
     entry[page] = isDirectory(dir)
-      ? environment.concat([`${dir}/index.js`])
-      : environment.concat([`${dir}.js`])
+      ? [`${dir}/index.js`]
+      : [`${dir}.js`]
   }
 
   config.entry = entry
@@ -185,7 +186,6 @@ module.exports = (env, argv) => {
     config.devtool = false
     // config.output.publicPath = `${cdn}/web/static/`
     config.optimization.minimize = true
-    config.plugins.push(new CleanWebpackPlugin())
     config.plugins.push(compressionPlugin)
     // config.plugins.push( 上传至 腾讯云、阿里云、UCloud、AWS 请自行封插件 )
   } else {

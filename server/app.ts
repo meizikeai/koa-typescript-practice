@@ -1,5 +1,4 @@
 import Koa from 'koa'
-// import apm from 'elastic-apm-node'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
 import cors from '@koa/cors'
@@ -28,13 +27,6 @@ app.use(
     appName: 'koa-typescript-practice',
   })
 )
-
-// apm.start({
-//   serviceName: '',
-//   secretToken: '',
-//   apiKey: '',
-//   serverUrl: '',
-// })
 
 // public
 app.use(serve(path.join(__dirname, '../public')))
