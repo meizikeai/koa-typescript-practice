@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import ctxUtils from '../libs/ctx-utils'
-import { getAnchor, getUser } from '../models/common'
+// import { getAnchor, getUser } from '../models/common'
 
 export default class GeneralController {
   public static async home(ctx: Context) {
@@ -15,8 +15,8 @@ export default class GeneralController {
       }),
     }
 
-    await getAnchor()
-    await getUser()
+    // await getAnchor()
+    // await getUser()
 
     await ctx.render('index')
   }

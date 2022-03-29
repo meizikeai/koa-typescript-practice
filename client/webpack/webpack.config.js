@@ -59,16 +59,11 @@ const config = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           {
-            loader: 'postcss-loader',
+            loader: 'sass-loader',
             options: {
-              postcssOptions: {
-                plugins: [
-                  ['autoprefixer'],
-                ],
-              },
+              implementation: require('sass'),
             },
           },
-          'sass-loader',
         ],
       },
     ],

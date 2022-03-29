@@ -26,10 +26,6 @@ class App extends Component {
       .then((res) => {
         console.log(res)
       })
-
-    const test = [1, 2, 3, 4].findIndex((element) => element === 2)
-
-    console.log(test)
   }
 
   handleClick = async () => {
