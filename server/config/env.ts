@@ -10,5 +10,5 @@ export const isLocalPro = dev === 'localPro'
 
 // zookeeper
 export const useZookeeper = false
-export const release = ['10.10.182.158:2181', '10.10.101.151:2181', '10.10.102.25:2181']
-export const test = ['10.9.158.210:2181', '10.9.114.167:2181', '10.9.105.4:2181']
+export const release = ['127.0.0.1:2181', '127.0.0.1:2181', '127.0.0.1:2181']
+export const test = ['127.0.0.1:2181', '127.0.0.1:2181', '127.0.0.1:2181']
