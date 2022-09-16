@@ -30,21 +30,6 @@ import './index.css'
 let popupCustomLayerScrollTop = 0
 
 class PopupCustomLayer extends Component {
-  static propTypes = {
-    show: PropTypes.bool,
-    content: PropTypes.node,
-    layer: PropTypes.bool,
-    handler: PropTypes.func,
-    node: PropTypes.object,
-    height: PropTypes.number,
-  }
-
-  static defaultProps = {
-    show: true,
-    content: '',
-    layer: true,
-  }
-
   constructor(props) {
     super(props)
     const { show } = this.props
@@ -84,6 +69,21 @@ class PopupCustomLayer extends Component {
       </div>
     )
   }
+}
+
+PopupCustomLayer.propTypes = {
+  show: PropTypes.bool,
+  content: PropTypes.node,
+  layer: PropTypes.bool,
+  handler: PropTypes.func,
+  node: PropTypes.object,
+  height: PropTypes.number,
+}
+
+PopupCustomLayer.defaultProps = {
+  show: true,
+  content: '',
+  layer: true,
 }
 
 /**

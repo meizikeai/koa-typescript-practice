@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es2018",
+    "target": "es2021",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -15,7 +15,7 @@
       ]
     },
     "lib": [
-      "es2018"
+      "es2021"
     ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
