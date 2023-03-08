@@ -1,5 +1,5 @@
+import crypto from 'node:crypto'
 import fetch from 'node-fetch'
-import crypto from 'crypto'
 import logger from '../libs/logger'
 
 interface RejectFunc {
