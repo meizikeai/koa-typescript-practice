@@ -9,7 +9,7 @@ import koaBody from 'koa-body'
 import koaBodyParser from 'koa-bodyparser'
 import logger from 'koa-visit-logger'
 import serve from 'koa-static'
-import views from 'koa-views'
+import views from '@ladjs/koa-views'
 
 import handleRouter from './system/control/handle-router'
 import { awaitZookeeper, handleZookeeper } from './libs/zookeeper'
