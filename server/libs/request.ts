@@ -1,5 +1,4 @@
 import crypto from 'node:crypto'
-import fetch from 'node-fetch'
 import logger from '../libs/logger'
 
 interface RejectFunc {
@@ -15,7 +14,6 @@ interface Option {
   data?: any
   headers?: { [key: string]: string }
   method?: string
-  qconf: string
   reject?: RejectFunc
   resolve: ResolveFunc
 }
@@ -41,15 +39,15 @@ async function request({ url, data, headers = {}, method = 'get', reject, resolv
   }
 
   const result = await fetch(request, option)
-    .then((res) => res.json())
-    .then((res) => {
+    .then((res: any) => res.json())
+    .then((res: any) => {
       logger.info({ url: request, option, result: res })
 
       if (typeof resolve === 'function') {
         return resolve(res)
       }
     })
-    .catch((error) => {
+    .catch((error: any) => {
       logger.error(error, { url: request, option })
 
       if (typeof reject === 'function') {

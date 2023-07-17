@@ -1,5 +1,6 @@
 import { Context } from 'koa'
 import ctxUtils from '../libs/ctx-utils'
+// import request from '../libs/request'
 
 export default class Test {
   public static async demo(ctx: Context) {
@@ -16,6 +17,16 @@ export default class Test {
         }),
       }
     )
+
+    // request({
+    //   url: 'http://127.0.0.1:3000/json',
+    //   reject: (err) => {
+    //     console.log(err)
+    //   },
+    //   resolve: (data) => {
+    //     console.log(data)
+    //   },
+    // })
 
     await ctx.render('demo')
   }
