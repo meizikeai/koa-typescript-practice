@@ -4,6 +4,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 module.exports = {
   mode: 'production',
+  devtool: 'none',
   entry: {
     vendors: [
       'react',

@@ -1,8 +1,7 @@
 import mysql from 'mysql2'
 import releaseMySQL from '../config/release-mysql'
 import testMySQL from '../config/test-mysql'
-import { getRandomSubscript } from '../libs/random'
-import { handleCache, getCache } from '../libs/cache-store'
+import { handleCache, getCache, getRandom } from '../libs/cache'
 import { isPro, isLocalPro } from '../config/env'
 
 function handleMySQL(key: string) {
@@ -61,7 +60,7 @@ function handleMySQL(key: string) {
 function getClient(key: string) {
   const pool = handleCache(`mysql.${key}`, () => {
     const client = handleMySQL(key)
-    const index = getRandomSubscript(client[key].length)
+    const index = getRandom(client[key].length)
 
     return client[key][index]
   })

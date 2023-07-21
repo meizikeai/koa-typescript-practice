@@ -1,8 +1,7 @@
 import Redis from 'ioredis'
 import releaseRedis from '../config/release-redis'
 import testRedis from '../config/test-redis'
-import { getRandomSubscript } from '../libs/random'
-import { handleCache, getCache } from '../libs/cache-store'
+import { handleCache, getCache, getRandom } from '../libs/cache'
 import { isPro, isLocalPro } from '../config/env'
 
 function handleRedis(key: string) {
@@ -53,7 +52,7 @@ function handleRedis(key: string) {
 function getClient(key: string) {
   const pool = handleCache(`redis.${key}`, () => {
     const client = handleRedis(key)
-    const index = getRandomSubscript(client[key].length)
+    const index = getRandom(client[key].length)
 
     return client[key][index]
   })

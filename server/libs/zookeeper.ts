@@ -1,7 +1,6 @@
 import ZooKeeper from 'zookeeper'
 import zk from '../config/zk'
-import { getRandomSubscript } from '../libs/random'
-import { setCache, getCache } from '../libs/cache-store'
+import { setCache, getCache, getRandom } from '../libs/cache'
 import { isPro, isLocalPro, release, test, useZookeeper } from '../config/env'
 
 interface ConfigMySQL {
@@ -29,7 +28,7 @@ function getZkConfig() {
     zk = release
   }
 
-  const key = getRandomSubscript(zk.length)
+  const key = getRandom(zk.length)
   const result = zk[key]
 
   return result

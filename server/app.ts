@@ -148,6 +148,6 @@ app.on('error', (err) => {
 // listening
 awaitZookeeper().then(() => {
   app.listen(port, () => {
-    console.log(`Server running on 127.0.0.1:${port}`)
+    console.log(`Listen and Server running on 127.0.0.1:${port}`)
   })
 })

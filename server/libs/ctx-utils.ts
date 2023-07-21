@@ -6,7 +6,8 @@
  *   - phone       {Boolean}     判断终端环境
  */
 import { Context } from 'koa'
-import isPhone from './is-phone'
+
+const isPhone = (ua: string) => /(iPhone|iPad|iPod|iOS|Android)/i.test(ua)
 
 interface OptionsConfig {
   ctx: Context

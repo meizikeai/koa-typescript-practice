@@ -1,6 +1,6 @@
 # Ignore the following files/folders
 
 build
-dll
-static
+logs
+public
 webpack

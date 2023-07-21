@@ -1,9 +1,8 @@
-import { getCache } from '../libs/cache-store'
-import { getRandomSubscript } from '../libs/random'
+import { getCache, getRandom } from '../libs/cache'
 
 function getClient(key: string) {
   const client = getCache('server')
-  const index = getRandomSubscript(client[key].length)
+  const index = getRandom(client[key].length)
 
   return client[key][index]
 }
