@@ -67,7 +67,6 @@
     "@types/koa-json": "^2.0.20",
     "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
-    "@types/koa-views": "^2.0.4",
     "@types/node-zookeeper-client": "^0.2.8",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
