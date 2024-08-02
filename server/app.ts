@@ -6,8 +6,8 @@ import helmet from 'koa-helmet'
 import json from 'koa-json'
 import jsonp from 'koa-safe-jsonp'
 import koaBody from 'koa-body'
+import logger from 'koa-logger'
 import koaBodyParser from 'koa-bodyparser'
-import logger from 'koa-visit-logger'
 import serve from 'koa-static'
 import views from '@ladjs/koa-views'
 
@@ -22,11 +22,7 @@ const port = process.env.PORT || 3000
 handleZookeeper()
 
 // logger
-app.use(
-  logger({
-    appName: 'koa-typescript-practice',
-  })
-)
+app.use(logger())
 
 // public
 app.use(serve(path.join(__dirname, '../public')))

@@ -2,12 +2,12 @@ import mysql from 'mysql2'
 import releaseMySQL from '../config/release-mysql'
 import testMySQL from '../config/test-mysql'
 import { handleCache, getCache, getRandom } from '../libs/cache'
-import { isPro, isLocalPro } from '../config/env'
+import { isPro } from '../config/env'
 
 function handleMySQL(key: string) {
   let datum = testMySQL
 
-  if (isPro || isLocalPro) {
+  if (isPro) {
     datum = releaseMySQL
   }
 

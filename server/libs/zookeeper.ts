@@ -1,7 +1,7 @@
 import ZooKeeper from 'zookeeper'
 import zk from '../config/zk'
 import { setCache, getCache, getRandom } from '../libs/cache'
-import { isPro, isLocalPro, release, test, useZookeeper } from '../config/env'
+import { isPro, release, test, useZookeeper } from '../config/env'
 
 interface ConfigMySQL {
   master: Array<string>
@@ -23,8 +23,6 @@ function getZkConfig() {
   let zk = test
 
   if (isPro) {
-    zk = release
-  } else if (isLocalPro) {
     zk = release
   }
 

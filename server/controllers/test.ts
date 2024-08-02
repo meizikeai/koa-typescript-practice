@@ -1,6 +1,7 @@
 import { Context } from 'koa'
 import ctxUtils from '../libs/ctx-utils'
 // import request from '../libs/request'
+import log from '../libs/logger'
 
 export default class Test {
   public static async demo(ctx: Context) {
@@ -50,6 +51,12 @@ export default class Test {
   }
 
   public static async json(ctx: Context) {
+    log.warn('Hello, warn!')
+    log.error('An error occurred!')
+    log.info('Hello, Pino!')
+    log.debug('This is a debug message')
+    log.trace('Hello, trace!')
+
     ctx.body = {
       title: 'koa2 json',
     }

@@ -2,12 +2,12 @@ import Redis from 'ioredis'
 import releaseRedis from '../config/release-redis'
 import testRedis from '../config/test-redis'
 import { handleCache, getCache, getRandom } from '../libs/cache'
-import { isPro, isLocalPro } from '../config/env'
+import { isPro } from '../config/env'
 
 function handleRedis(key: string) {
   let datum = testRedis
 
-  if (isPro || isLocalPro) {
+  if (isPro) {
     datum = releaseRedis
   }
 

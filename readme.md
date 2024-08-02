@@ -11,7 +11,7 @@ https://github.com/meizikeai/koa-typescript-practice.git
 #### 项目结构
 
 | 路径          | 描述               | 详情 |
-|---------------|--------------------|------|
+| ------------- | ------------------ | ---- |
 | client        | react.js           | --   |
 | pm2           | pm2.keymetrics.io  | --   |
 | public        | koa-static         | --   |
@@ -34,8 +34,3 @@ https://github.com/meizikeai/koa-typescript-practice.git
   + http://127.0.0.1:3000/demo
   + http://127.0.0.1:3000/json
   + http://127.0.0.1:3000/string
-
-#### 监控支持
-
-使用 elastic-apm-node 对项目进行链路追踪，建议测试服使用！
-具体见 [Get started with Koa](https://www.elastic.co/guide/en/apm/agent/nodejs/current/koa.html)

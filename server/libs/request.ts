@@ -48,7 +48,7 @@ async function request({ url, data, headers = {}, method = 'get', reject, resolv
       }
     })
     .catch((error: any) => {
-      logger.error(error, { url: request, option })
+      logger.error({ url: request, option, error })
 
       if (typeof reject === 'function') {
         reject(error)

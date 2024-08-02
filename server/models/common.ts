@@ -24,7 +24,7 @@ async function getAnchor() {
 
   const selectSQL = 'SELECT * FROM test_user LIMIT 0,10'
   const [result] = await defaultMySQL.query(selectSQL).catch((err: any) => {
-    logger.error(err, { tips: 'test -> query error' })
+    logger.error({ tips: 'test -> query error', err })
   })
 
   logger.info({ result })
@@ -36,7 +36,7 @@ async function getUser() {
   const defaultRedis = redisClient('default.master')
 
   const result = await defaultRedis.hgetall('u:113').catch((err: any) => {
-    logger.error(err, { tips: 'test -> query error' })
+    logger.error({ tips: 'test -> query error', err })
   })
 
   logger.info({ result })
