@@ -1,0 +1,9 @@
+# Ignore the following files/folders
+
+.DS_Store
+.vscode
+
+app
+build
+logs
+node_modules
