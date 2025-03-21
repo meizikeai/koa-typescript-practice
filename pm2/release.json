@@ -11,6 +11,6 @@
   "instances": 0,
   "exec_mode": "cluster",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "release"
   }
 }
