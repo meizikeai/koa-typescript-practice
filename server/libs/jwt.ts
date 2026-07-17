@@ -1,6 +1,6 @@
+// server/libs/jwt.js
 import jwt from 'jsonwebtoken'
-import { env } from '../config/env.js'
-import tool from './tool.js'
+import { env } from '../config/index.js'
 
 // generate jwt key
 // openssl genrsa -out private.key 2048
@@ -16,14 +16,14 @@ const jwtRsaKey: { [propName: string]: { private: string; public: string } } = {
   },
 }
 
-function HandleJsonWebTokenEncrypt(uid: string, expiration: number) {
+export function handleJsonWebTokenEncrypt(uid: number, expiration = 0) {
   let exp = expiration
 
   if (expiration <= 0) {
     exp = 3196800
   }
 
-  const secret = tool.Base64ToBinary(jwtRsaKey[env].private).toString('utf-8')
+  const secret = base64ToBuffer(jwtRsaKey[env].private).toString('utf-8')
   const times = Math.floor(Date.now() / 1000)
   const result = jwt.sign(
     {
@@ -39,9 +39,9 @@ function HandleJsonWebTokenEncrypt(uid: string, expiration: number) {
   return result
 }
 
-function HandleJsonWebTokenDecrypt(token: string) {
+export function handleJsonWebTokenDecrypt(token: string) {
   let decoded = null
-  const cert = tool.Base64ToBinary(jwtRsaKey[env].public).toString('utf-8')
+  const cert = base64ToBuffer(jwtRsaKey[env].public).toString('utf-8')
 
   try {
     decoded = jwt.verify(token, cert)
@@ -52,4 +52,4 @@ function HandleJsonWebTokenDecrypt(token: string) {
   return decoded
 }
 
-export default { HandleJsonWebTokenEncrypt, HandleJsonWebTokenDecrypt }
+export const base64ToBuffer = (base64: string) => Buffer.from(base64, 'base64')

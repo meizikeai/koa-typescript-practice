@@ -1,24 +1,17 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "esModuleInterop": true,
-    "target": "esnext",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "app",
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "node_modules/*",
-      ]
-    },
-    "lib": [
-      "esnext"
-    ],
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "rootDir": "./server",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2025",
   },
   "include": [
     "server/**/*"

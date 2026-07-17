@@ -2,14 +2,23 @@ import globals from 'globals'
 import eslint from '@eslint/js'
 import react from 'eslint-plugin-react'
 import tseslint from 'typescript-eslint'
-import tsEslintParser from '@typescript-eslint/parser'
-import tsEslintPlugin from '@typescript-eslint/eslint-plugin'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
+  {
+    ignores: ['node_modules/', 'app/', 'app/**/*.js', 'public/', 'public/**/*.js', 'ecosystem.config.cjs'],
+  },
+  {
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+    },
+  },
+
   eslint.configs.recommended,
   eslintPluginPrettierRecommended,
+
   {
     files: ['client/**/*.js'],
     ...react.configs.flat.recommended,
@@ -32,29 +41,26 @@ export default [
       react,
     },
   },
-  ...[...tseslint.configs.recommended].map((conf) => ({
+
+  ...tseslint.configs.recommended.map((conf) => ({
     ...conf,
     files: ['server/**/*.ts'],
     languageOptions: {
-      parser: tsEslintParser,
+      ...conf.languageOptions,
+      parser: tseslint.parser,
       globals: {
         ...globals.node,
       },
     },
     plugins: {
-      '@typescript-eslint': tsEslintPlugin,
+      ...conf.plugins,
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
+      ...conf.rules,
       '@typescript-eslint/no-explicit-any': 0,
     },
   })),
-  {
-    ignores: ['node_modules/', 'app/', 'app/**/*.js', 'public/', 'public/**/*.js'],
-    languageOptions: {
-      sourceType: 'module',
-      ecmaVersion: 'latest',
-    },
-  },
 
   eslintConfigPrettier,
 ]

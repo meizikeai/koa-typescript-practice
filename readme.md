@@ -10,13 +10,10 @@ https://github.com/meizikeai/koa-typescript-practice.git
 
 ### Project Structure
 
-| directory    | describe          | details |
+| Directory    | Describe          | Remark  |
 | ------------ | ----------------- | ------- |
-| client       | react.js          | --      |
-| pm2          | pm2.keymetrics.io | --      |
-| public       | koa-static        | --      |
-| server       | koa.js            | --      |
-| views        | koa-views         | --      |
+| client       | react.dev         | --      |
+| server       | koajs.com         | --      |
 | package.json | package.json      | --      |
 
 ### Development Environment

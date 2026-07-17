@@ -1,71 +1,49 @@
-import mysql from 'mysql2'
-import releaseMySQL from '../config/release-mysql'
-import testMySQL from '../config/test-mysql'
-import { handleCache, getCache, getRandom } from '../libs/cache.js'
-import { isPro } from '../config/env.js'
+// server/libs/mysql.js
+import mysql from 'mysql2/promise'
+import * as config from '../config/index.js'
+import { appCache, getRandomIndex } from './cache.js'
 
-function handleMySQL(key: string) {
-  let datum = testMySQL
+const env = process.env.NODE_ENV || 'development'
 
-  if (isPro) {
-    datum = releaseMySQL
-  }
+export async function initMySQL() {
+  const mysqlConfig = config.mysql
+  if (!mysqlConfig) throw new Error('[Server] No mysql configuration found.')
 
-  const result: any = {}
-  const [where, branch] = key.split('.')
-  const zk = getCache('mysql')
+  for (const dbKey of Object.keys(mysqlConfig)) {
+    const envConfig = mysqlConfig[dbKey][env]
+    if (!envConfig) continue
 
-  datum = Object.assign(datum, zk)
-
-  if (!datum[where]) {
-    throw new Error(`Can not find the key: ${where}`)
-  }
-
-  for (const k in datum) {
-    if (k !== where) {
-      continue
+    if (envConfig.master && envConfig.master.length > 0) {
+      const masterPools = envConfig.master.map((addr: string) => createPoolInstance(addr, envConfig))
+      appCache.set(`mysql.${dbKey}.master`, masterPools)
     }
 
-    const config = datum[k]
-    let data = config.master
-
-    if (branch === 'slave') {
-      data = config.slave
-    }
-
-    result[key] = []
-
-    for (let i = 0; i < data.length; i++) {
-      const element = data[i]
-      const [host, port] = element.split(':')
-      const pool = mysql.createPool({
-        host: host,
-        port: Number(port) || 3306,
-        user: config.username,
-        password: config.password,
-        database: config.database,
-        connectionLimit: config.connection || 100,
-        connectTimeout: 5000,
-        waitForConnections: true,
-      })
-      const client = pool.promise()
-
-      result[key][i] = client
+    if (envConfig.slave && envConfig.slave.length > 0) {
+      const slavePools = envConfig.slave.map((addr: string) => createPoolInstance(addr, envConfig))
+      appCache.set(`mysql.${dbKey}.slave`, slavePools)
     }
   }
-
-  return result
 }
 
-function getClient(key: string) {
-  const pool = handleCache(`mysql.${key}`, () => {
-    const client = handleMySQL(key)
-    const index = getRandom(client[key].length)
-
-    return client[key][index]
+function createPoolInstance(address: string, cfg: any) {
+  const [host, port] = address.split(':')
+  return mysql.createPool({
+    host,
+    port: Number(port) || 3306,
+    user: cfg.username,
+    password: cfg.password,
+    database: cfg.database,
+    connectionLimit: cfg.connection || 100,
+    waitForConnections: true,
   })
-
-  return pool
 }
 
-export default getClient
+export function getMysqlPool(path = 'default.master') {
+  const pools = appCache.get(`mysql.${path}`)
+  if (!pools || pools.length === 0) {
+    throw new Error(`[Server] No active connection pools found for path: ${path}`)
+  }
+
+  const index = getRandomIndex(pools.length)
+  return pools[index]
+}

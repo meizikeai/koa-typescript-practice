@@ -1,7 +1,6 @@
 .DS_Store
 .vscode
 
-app
+dist
 build
-logs
 node_modules

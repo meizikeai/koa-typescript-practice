@@ -1,41 +1,39 @@
-import { Context } from 'koa'
-import log from '../libs/log.js'
+// controllers/test.js
+import client from '../libs/client.js'
+import { AppContext } from '../types/context.js'
+// import { MysqlModel, RedisModel } from '../models/index.js'
 
-export default class Test {
-  public static async demo(ctx: Context) {
-    ctx.state = Object.assign(
-      {},
-      {
-        title: 'Hello Demo!',
-      }
-    )
+class TestController {
+  async demo(ctx: AppContext) {
+    const api = await client.get('http://127.0.0.1:8000/json')
+    console.log(api)
 
-    // request({
-    //   url: 'http://127.0.0.1:3000/json',
-    //   reject: (err) => {
-    //     console.log(err)
-    //   },
-    //   resolve: (data) => {
-    //     console.log(data)
-    //   },
-    // })
+    // const mysql = await MysqlModel.test()
+    // console.log(mysql)
+
+    // const redis = await RedisModel.test()
+    // console.log(redis)
+
+    ctx.state = {
+      title: 'Hello Demo!',
+    }
 
     await ctx.render('demo')
   }
 
-  public static async json(ctx: Context) {
-    log.warn('Hello, warn!')
-    log.error('An error occurred!')
-    log.info('Hello, Pino!')
-    log.debug('This is a debug message')
-    log.trace('Hello, trace!')
+  async json(ctx: AppContext) {
+    ctx.log.warn('Hello, warn!')
+    ctx.log.error('An error occurred!')
+    ctx.log.info('Hello, Pino!')
 
     ctx.body = {
       title: 'koa2 json',
     }
   }
 
-  public static async string(ctx: Context) {
+  async string(ctx: AppContext) {
     ctx.body = 'koa2 string'
   }
 }
+
+export default new TestController()
